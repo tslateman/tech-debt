@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Debt Documentation</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --text-color: #1f2937;
+            --bg-color: #f9fafb;
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --hover-bg: #f3f4f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: #6b7280;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .content-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .content-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transform: translateY(-2px);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .card-description {
+            color: #6b7280;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+
+        .tags {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background-color: #eff6ff;
+            color: var(--primary-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .overview-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .overview-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .overview-content {
+            color: #4b5563;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Technical Debt Documentation</h1>
+            <p class="subtitle">A curated collection of insights, strategies, and perspectives on managing technical debt</p>
+        </header>
+
+        <div class="overview-section">
+            <h2 class="overview-title">About This Collection</h2>
+            <div class="overview-content">
+                <p>This repository serves as a knowledge base for understanding and managing technical debt. 
+                It includes curated articles from industry experts, practical management strategies, and contemporary 
+                perspectives on how technical debt impacts modern software development.</p>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <a href="pages/ten-articles-on-tech-debt.html" class="content-card">
+                <h3 class="card-title">Ten Articles on Tech Debt</h3>
+                <p class="card-description">A foundational collection of 10 essential articles that explore various aspects of technical debt, from its origins to practical management approaches.</p>
+                <div class="card-meta">
+                    <span>Created: June 1, 2025</span>
+                    <div class="tags">
+                        <span class="tag">techdebt</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="pages/five-more-posts-on-tech-debt.html" class="content-card">
+                <h3 class="card-title">Five More Posts on Tech Debt</h3>
+                <p class="card-description">Additional perspectives and insights on technical debt, supplementing the main collection with more recent thinking and approaches.</p>
+                <div class="card-meta">
+                    <span>Created: June 5, 2025</span>
+                    <div class="tags">
+                        <span class="tag">techdebt</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="pages/managing-tech-debt.html" class="content-card">
+                <h3 class="card-title">Managing Tech Debt</h3>
+                <p class="card-description">A structured guide to managing technical debt, including comparison tables, severity levels, and practical strategies for teams and organizations.</p>
+                <div class="card-meta">
+                    <span>Created: June 1, 2025</span>
+                    <div class="tags">
+                        <span class="tag">techdebt</span>
+                        <span class="tag">ai-assisted</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="pages/tech-debt-in-2025.html" class="content-card">
+                <h3 class="card-title">Tech Debt in 2025</h3>
+                <p class="card-description">Contemporary perspectives on technical debt, including CTO viewpoints, the importance of maintenance work, and how AI is changing the landscape.</p>
+                <div class="card-meta">
+                    <span>Created: June 14, 2025</span>
+                    <div class="tags">
+                        <span class="tag">techdebt</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
