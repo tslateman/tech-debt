@@ -1,266 +1,411 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Five More Posts on Tech Debt - Technical Debt Documentation</title>
+
+    <!-- Meta Tags -->
+    <meta
+      name="description"
+      content="Additional perspectives and insights on technical debt, supplementing the main collection with more recent thinking and approaches."
+    />
+    <meta
+      name="keywords"
+      content="technical debt, software development, code quality, maintenance, refactoring, software engineering"
+    />
+    <meta name="author" content="Tommy Slater" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Five More Posts on Tech Debt" />
+    <meta
+      property="og:description"
+      content="Additional perspectives and insights on technical debt, supplementing the main collection with more recent thinking and approaches."
+    />
+    <meta property="og:type" content="article" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>📚</text></svg>"
+    />
     <style>
-        :root {
-            --primary-color: #2563eb;
-            --text-color: #1f2937;
-            --bg-color: #f9fafb;
-            --card-bg: #ffffff;
-            --border-color: #e5e7eb;
-            --hover-bg: #f3f4f6;
-            --code-bg: #f3f4f6;
-            --link-color: #2563eb;
-            --blockquote-border: #d1d5db;
-        }
+      :root {
+        --primary-color: #2563eb;
+        --text-color: #1f2937;
+        --bg-color: #f9fafb;
+        --card-bg: #ffffff;
+        --border-color: #e5e7eb;
+        --hover-bg: #f3f4f6;
+        --code-bg: #f3f4f6;
+        --link-color: #2563eb;
+        --blockquote-border: #d1d5db;
+      }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--bg-color);
-        }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        color: var(--text-color);
+        background-color: var(--bg-color);
+      }
 
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      .nav-bar {
+        margin-bottom: 2rem;
+      }
+
+      .back-link {
+        color: var(--link-color);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        transition: opacity 0.2s;
+      }
+
+      .back-link:hover {
+        opacity: 0.7;
+      }
+
+      .back-link::before {
+        content: "←";
+      }
+
+      header {
+        margin-bottom: 3rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--text-color);
+      }
+
+      .meta-info {
+        display: flex;
+        gap: 2rem;
+        font-size: 0.875rem;
+        color: #6b7280;
+      }
+
+      .content {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 2rem 0 1rem 0;
+        color: var(--text-color);
+      }
+
+      h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 1.5rem 0 0.75rem 0;
+        color: var(--text-color);
+      }
+
+      p {
+        margin-bottom: 1rem;
+        color: #4b5563;
+      }
+
+      a {
+        color: var(--link-color);
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      blockquote {
+        border-left: 4px solid var(--blockquote-border);
+        padding-left: 1.5rem;
+        margin: 1rem 0;
+        color: #6b7280;
+        font-style: italic;
+      }
+
+      code {
+        background-color: var(--code-bg);
+        padding: 0.125rem 0.375rem;
+        border-radius: 0.25rem;
+        font-family: "Menlo", "Monaco", "Consolas", monospace;
+        font-size: 0.875em;
+      }
+
+      ul {
+        margin: 1rem 0;
+        padding-left: 2rem;
+        color: #4b5563;
+      }
+
+      li {
+        margin-bottom: 0.5rem;
+      }
+
+      .related-section {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border-color);
+      }
+
+      .related-section h2 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+      }
+
+      .related-links {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      @media (max-width: 768px) {
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .nav-bar {
-            margin-bottom: 2rem;
-        }
-
-        .back-link {
-            color: var(--link-color);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.875rem;
-            transition: opacity 0.2s;
-        }
-
-        .back-link:hover {
-            opacity: 0.7;
-        }
-
-        .back-link::before {
-            content: "←";
-        }
-
-        header {
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--border-color);
+          padding: 1rem;
         }
 
         h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--text-color);
-        }
-
-        .meta-info {
-            display: flex;
-            gap: 2rem;
-            font-size: 0.875rem;
-            color: #6b7280;
+          font-size: 2rem;
         }
 
         .content {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 2rem;
-            margin-bottom: 3rem;
+          padding: 1.5rem;
         }
-
-        h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin: 2rem 0 1rem 0;
-            color: var(--text-color);
-        }
-
-        h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin: 1.5rem 0 0.75rem 0;
-            color: var(--text-color);
-        }
-
-        p {
-            margin-bottom: 1rem;
-            color: #4b5563;
-        }
-
-        a {
-            color: var(--link-color);
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        blockquote {
-            border-left: 4px solid var(--blockquote-border);
-            padding-left: 1.5rem;
-            margin: 1rem 0;
-            color: #6b7280;
-            font-style: italic;
-        }
-
-        code {
-            background-color: var(--code-bg);
-            padding: 0.125rem 0.375rem;
-            border-radius: 0.25rem;
-            font-family: 'Menlo', 'Monaco', 'Consolas', monospace;
-            font-size: 0.875em;
-        }
-
-        ul {
-            margin: 1rem 0;
-            padding-left: 2rem;
-            color: #4b5563;
-        }
-
-        li {
-            margin-bottom: 0.5rem;
-        }
-
-        .related-section {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .related-section h2 {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-        }
-
-        .related-links {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .content {
-                padding: 1.5rem;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <nav class="nav-bar">
-            <a href="../index.html" class="back-link">Back to Index</a>
-        </nav>
+      <nav class="nav-bar">
+        <a href="../index.html" class="back-link">Back to Index</a>
+      </nav>
 
-        <header>
-            <h1>Five More Posts on Tech Debt</h1>
-            <div class="meta-info">
-                <span>Created: June 5, 2025</span>
-                <span>Modified: June 14, 2025</span>
-            </div>
-        </header>
+      <header>
+        <h1>Five More Posts on Tech Debt</h1>
+        <div class="meta-info">
+          <span>Created: June 5, 2025</span>
+          <span>Modified: June 14, 2025</span>
+        </div>
+      </header>
 
-        <div class="content">
-            <p>My previous page on this <a href="ten-articles-on-tech-debt.html">Ten Articles on Tech Debt</a> missed a few excellent sources.</p>
+      <div class="content">
+        <p>
+          My previous page on this
+          <a href="ten-articles-on-tech-debt.html">Ten Articles on Tech Debt</a>
+          missed a few excellent sources.
+        </p>
 
-            <h2>Technical Debt (intro guide)</h2>
-            <p><a href="https://www.productplan.com/glossary/technical-debt/?hl=en-US" target="_blank">https://www.productplan.com/glossary/technical-debt/?hl=en-US</a></p>
-            <p>Good introductory article. Digestible for beginners.</p>
-            <blockquote>
-                <p>If you want a simple answer: technical debt is neither good nor bad, it's debt.</p>
-            </blockquote>
-            <p>Fair, I guess. Dangerous in the wrong hands, though.</p>
-            <blockquote>
-                <p>Technical staff, he says, often are tasked with trying to explain technical debt to business staff, who may not immediately see the implications. "The main issue seems to be that, unlike financial debt, technical debt is much less visible, and so people have an easier time ignoring it," he suggests.</p>
-            </blockquote>
-            <p>Bingo. Business staff love to borrow for their goals and have technical staff pay it off. Then they turn around and complain about technical staff taking longer to deliver. Things start to spiral from there with expanded padding in estimates and eroding quality as burned out engineers stop trying.</p>
+        <h2>Technical Debt (intro guide)</h2>
+        <p>
+          <a
+            href="https://www.productplan.com/glossary/technical-debt/?hl=en-US"
+            target="_blank"
+            >https://www.productplan.com/glossary/technical-debt/?hl=en-US</a
+          >
+        </p>
+        <p>Good introductory article. Digestible for beginners.</p>
+        <blockquote>
+          <p>
+            If you want a simple answer: technical debt is neither good nor bad,
+            it's debt.
+          </p>
+        </blockquote>
+        <p>Fair, I guess. Dangerous in the wrong hands, though.</p>
+        <blockquote>
+          <p>
+            Technical staff, he says, often are tasked with trying to explain
+            technical debt to business staff, who may not immediately see the
+            implications. "The main issue seems to be that, unlike financial
+            debt, technical debt is much less visible, and so people have an
+            easier time ignoring it," he suggests.
+          </p>
+        </blockquote>
+        <p>
+          Bingo. Business staff love to borrow for their goals and have
+          technical staff pay it off. Then they turn around and complain about
+          technical staff taking longer to deliver. Things start to spiral from
+          there with expanded padding in estimates and eroding quality as burned
+          out engineers stop trying.
+        </p>
+        <ul>
+          <li>
+            My favorite part is the list from "<a
+              href="https://pdfs.semanticscholar.org/3ab6/bd6fd72110a18f2d9d442cab03369a6017c5.pdf"
+              target="_blank"
+              >Towards an Ontology of Terms on Technical Debt</a
+            >":
             <ul>
-                <li>My favorite part is the list from "<a href="https://pdfs.semanticscholar.org/3ab6/bd6fd72110a18f2d9d442cab03369a6017c5.pdf" target="_blank">Towards an Ontology of Terms on Technical Debt</a>":
-                    <ul>
-                        <li>Architecture Debt</li>
-                        <li>Build Debt</li>
-                        <li>Code Debt</li>
-                        <li>Defect Debt</li>
-                        <li>Design Debt</li>
-                        <li>Documentation Debt</li>
-                        <li>Infrastructure Debt</li>
-                        <li>People Debt</li>
-                        <li>Process Debt</li>
-                        <li>Requirement Debt</li>
-                        <li>Service Debt</li>
-                        <li>Test Automation Debt</li>
-                        <li>Test Debt</li>
-                    </ul>
-                </li>
+              <li>Architecture Debt</li>
+              <li>Build Debt</li>
+              <li>Code Debt</li>
+              <li>Defect Debt</li>
+              <li>Design Debt</li>
+              <li>Documentation Debt</li>
+              <li>Infrastructure Debt</li>
+              <li>People Debt</li>
+              <li>Process Debt</li>
+              <li>Requirement Debt</li>
+              <li>Service Debt</li>
+              <li>Test Automation Debt</li>
+              <li>Test Debt</li>
             </ul>
+          </li>
+        </ul>
 
-            <h2>Tech Debt - by Martin Fowler</h2>
-            <p><a href="https://martinfowler.com/bliki/TechnicalDebt.html?hl=en-US" target="_blank">https://martinfowler.com/bliki/TechnicalDebt.html?hl=en-US</a></p>
-            <blockquote>
-                <p>Cruft has a quick impact, slowing down the very new features that are needed quickly. Teams who do this end up maxing out all their credit cards, but still delivering later than they would have done had they put the effort into higher internal quality.</p>
-            </blockquote>
-            <p>Preach! Also love the often cited <a href="https://martinfowler.com/bliki/TechnicalDebtQuadrant.html" target="_blank">TechnicalDebtQuadrant</a>.</p>
-            <p>Martin is an Engineer's champion. He's clever with detail and cites good sources.</p>
+        <h2>Tech Debt - by Martin Fowler</h2>
+        <p>
+          <a
+            href="https://martinfowler.com/bliki/TechnicalDebt.html?hl=en-US"
+            target="_blank"
+            >https://martinfowler.com/bliki/TechnicalDebt.html?hl=en-US</a
+          >
+        </p>
+        <blockquote>
+          <p>
+            Cruft has a quick impact, slowing down the very new features that
+            are needed quickly. Teams who do this end up maxing out all their
+            credit cards, but still delivering later than they would have done
+            had they put the effort into higher internal quality.
+          </p>
+        </blockquote>
+        <p>
+          Preach! Also love the often cited
+          <a
+            href="https://martinfowler.com/bliki/TechnicalDebtQuadrant.html"
+            target="_blank"
+            >TechnicalDebtQuadrant</a
+          >.
+        </p>
+        <p>
+          Martin is an Engineer's champion. He's clever with detail and cites
+          good sources.
+        </p>
 
-            <h2>Similarities Between Tech Debt and 'Money' Debt</h2>
-            <p>A delightful comparison in a table.<br>
-            <a href="https://marcgg.com/blog/2025/02/20/tech-debt/" target="_blank">https://marcgg.com/blog/2025/02/20/tech-debt/</a></p>
-            <blockquote>
-                <p>Often people only see the "ship faster" part, but forget about the rest… just like they see how nice the new car will be while forgetting about the 8% interest.</p>
-            </blockquote>
-            <p>This is a great blog. There's a cool post about <a href="https://marcgg.com/blog/2020/06/04/force-multipliers/" target="_blank">Force Multipliers</a> that talks a little about team composition, too.</p>
+        <h2>Similarities Between Tech Debt and 'Money' Debt</h2>
+        <p>
+          A delightful comparison in a table.<br />
+          <a
+            href="https://marcgg.com/blog/2025/02/20/tech-debt/"
+            target="_blank"
+            >https://marcgg.com/blog/2025/02/20/tech-debt/</a
+          >
+        </p>
+        <blockquote>
+          <p>
+            Often people only see the "ship faster" part, but forget about the
+            rest… just like they see how nice the new car will be while
+            forgetting about the 8% interest.
+          </p>
+        </blockquote>
+        <p>
+          This is a great blog. There's a cool post about
+          <a
+            href="https://marcgg.com/blog/2020/06/04/force-multipliers/"
+            target="_blank"
+            >Force Multipliers</a
+          >
+          that talks a little about team composition, too.
+        </p>
 
-            <h2>Technical Debt Explained (by Codacy)</h2>
-            <p>A good comprehensive overview including explanation, analysis, and solutions.<br>
-            <a href="https://blog.codacy.com/technical-debt" target="_blank">https://blog.codacy.com/technical-debt</a></p>
-            <p>Generally good stuff. I might nitpick about its <code>get_user_data</code> example bordering on an unproductive part of Uncle Bob Clean Code theory that favors over-abstraction, too much indirection of logic, and ultimately makes code worse. That's a topic for another page.</p>
+        <h2>Technical Debt Explained (by Codacy)</h2>
+        <p>
+          A good comprehensive overview including explanation, analysis, and
+          solutions.<br />
+          <a href="https://blog.codacy.com/technical-debt" target="_blank"
+            >https://blog.codacy.com/technical-debt</a
+          >
+        </p>
+        <p>
+          Generally good stuff. I might nitpick about its
+          <code>get_user_data</code> example bordering on an unproductive part
+          of Uncle Bob Clean Code theory that favors over-abstraction, too much
+          indirection of logic, and ultimately makes code worse. That's a topic
+          for another page.
+        </p>
 
-            <h2>It's not your codebase</h2>
-            <p>Sean Goedecke has some interesting takes. This one is counterintuitive, with a healthy dose of balance. A lot of online advice sells ideas about "high ownership" using words like "empower" or "accountability" so much that I'm not sure they mean what the authors think they mean. This post advocates boundaries and trust. I don't totally buy it. However, I also feel like he's got a point.</p>
-            <p><a href="https://www.seangoedecke.com/not-your-codebase/" target="_blank">https://www.seangoedecke.com/not-your-codebase/</a></p>
-            <p>He presents a steelman argument about Engineers resisting managers incentivized for tech debt...</p>
-            <blockquote>
-                <p>Engineers should fight against this, because it's in their interest to not trash their own codebases, and it's in the broader company interest to maintain a healthier codebase long-term (even if individual managers disagree).</p>
-            </blockquote>
-            <p>... then counters</p>
-            <blockquote>
-                <p>This does sometimes happen. But it's a deeply cynical way of looking at your work. I've worked with managers and product managers who were only interested in short-term gain. But I've also worked with managers and product managers who genuinely wanted to do the right thing, and only pushed for short-term gain when there was actually a strong reason.</p>
-            </blockquote>
-            <p>Paint me gray and call me cynical then! Perhaps I've been burned too many times. People play to their incentives and rules. I often see moral hazard and tragedy of the commons at play as bad code happens to good people, and then good people get blamed. Would trust and shared responsibility be better? Of course. Do humans reliably work like that? Show me more proof. The best part of the post is a reminder that the code and its debt ultimately belong to the company. We're just the help.</p>
+        <h2>It's not your codebase</h2>
+        <p>
+          Sean Goedecke has some interesting takes. This one is
+          counterintuitive, with a healthy dose of balance. A lot of online
+          advice sells ideas about "high ownership" using words like "empower"
+          or "accountability" so much that I'm not sure they mean what the
+          authors think they mean. This post advocates boundaries and trust. I
+          don't totally buy it. However, I also feel like he's got a point.
+        </p>
+        <p>
+          <a
+            href="https://www.seangoedecke.com/not-your-codebase/"
+            target="_blank"
+            >https://www.seangoedecke.com/not-your-codebase/</a
+          >
+        </p>
+        <p>
+          He presents a steelman argument about Engineers resisting managers
+          incentivized for tech debt...
+        </p>
+        <blockquote>
+          <p>
+            Engineers should fight against this, because it's in their interest
+            to not trash their own codebases, and it's in the broader company
+            interest to maintain a healthier codebase long-term (even if
+            individual managers disagree).
+          </p>
+        </blockquote>
+        <p>... then counters</p>
+        <blockquote>
+          <p>
+            This does sometimes happen. But it's a deeply cynical way of looking
+            at your work. I've worked with managers and product managers who
+            were only interested in short-term gain. But I've also worked with
+            managers and product managers who genuinely wanted to do the right
+            thing, and only pushed for short-term gain when there was actually a
+            strong reason.
+          </p>
+        </blockquote>
+        <p>
+          Paint me gray and call me cynical then! Perhaps I've been burned too
+          many times. People play to their incentives and rules. I often see
+          moral hazard and tragedy of the commons at play as bad code happens to
+          good people, and then good people get blamed. Would trust and shared
+          responsibility be better? Of course. Do humans reliably work like
+          that? Show me more proof. The best part of the post is a reminder that
+          the code and its debt ultimately belong to the company. We're just the
+          help.
+        </p>
+      </div>
+
+      <div class="related-section">
+        <h2>Related</h2>
+        <div class="related-links">
+          <a href="ten-articles-on-tech-debt.html">Ten Articles on Tech Debt</a>
         </div>
-
-        <div class="related-section">
-            <h2>Related</h2>
-            <div class="related-links">
-                <a href="ten-articles-on-tech-debt.html">Ten Articles on Tech Debt</a>
-            </div>
-        </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>
