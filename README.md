@@ -12,7 +12,6 @@ This repository serves as a knowledge base for software engineers, technical lea
 
 - **[Ten Articles on Tech Debt](pages/ten-articles-on-tech-debt.md)** - A foundational collection of 10 essential articles exploring various aspects of technical debt, from its origins to practical management approaches
 - **[Five More Posts on Tech Debt](pages/five-more-posts-on-tech-debt.md)** - Additional perspectives and insights supplementing the main collection with more recent thinking
-- **[Managing Tech Debt](pages/managing-tech-debt.md)** - A structured guide with comparison tables, severity levels, and practical strategies for teams
 - **[Tech Debt in 2025](pages/tech-debt-in-2025.md)** - Contemporary perspectives including CTO viewpoints and how AI is changing the landscape
 
 ## Viewing the Documentation
