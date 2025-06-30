@@ -33,6 +33,15 @@
             --hover-bg: #f3f4f6;
         }
 
+        [data-theme="dark"] {
+            --primary-color: #60a5fa;
+            --text-color: #f3f4f6;
+            --bg-color: #111827;
+            --card-bg: #1f2937;
+            --border-color: #374151;
+            --hover-bg: #374151;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -69,6 +78,10 @@
             color: #6b7280;
         }
 
+        [data-theme="dark"] .subtitle {
+            color: #9ca3af;
+        }
+
         .content-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -92,6 +105,10 @@
             transform: translateY(-2px);
         }
 
+        [data-theme="dark"] .content-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+        }
+
         .card-title {
             font-size: 1.25rem;
             font-weight: 600;
@@ -105,11 +122,19 @@
             font-size: 0.95rem;
         }
 
+        [data-theme="dark"] .card-description {
+            color: #d1d5db;
+        }
+
         .card-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 0.875rem;
+            color: #9ca3af;
+        }
+
+        [data-theme="dark"] .card-meta {
             color: #9ca3af;
         }
 
@@ -125,6 +150,45 @@
             border-radius: 9999px;
             font-size: 0.75rem;
             font-weight: 500;
+        }
+
+        [data-theme="dark"] .tag {
+            background-color: #1e3a8a;
+            color: #93c5fd;
+        }
+
+        /* Better contrast for text in dark mode */
+        [data-theme="dark"] .overview-content {
+            color: #d1d5db;
+        }
+
+        /* Dark mode toggle button */
+        .theme-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-toggle svg {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: var(--text-color);
         }
 
         .overview-section {
@@ -162,7 +226,7 @@
         }
     </style>
 </head>
-<body>
+<body data-theme="light">
     <div class="container">
         <header>
             <h1>Technical Debt Documentation</h1>
@@ -201,18 +265,6 @@
                 </div>
             </a>
 
-            <a href="pages/managing-tech-debt.html" class="content-card">
-                <h3 class="card-title">Managing Tech Debt</h3>
-                <p class="card-description">A structured guide to managing technical debt, including comparison tables, severity levels, and practical strategies for teams and organizations.</p>
-                <div class="card-meta">
-                    <span>Created: June 1, 2025</span>
-                    <div class="tags">
-                        <span class="tag">techdebt</span>
-                        <span class="tag">ai-assisted</span>
-                    </div>
-                </div>
-            </a>
-
             <a href="pages/tech-debt-in-2025.html" class="content-card">
                 <h3 class="card-title">Tech Debt in 2025</h3>
                 <p class="card-description">Contemporary perspectives on technical debt, including CTO viewpoints, the importance of maintenance work, and how AI is changing the landscape.</p>
@@ -225,5 +277,61 @@
             </a>
         </div>
     </div>
+
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="sun-icon">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="moon-icon" style="display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+    </button>
+
+    <script>
+        // Check for saved theme preference or use system preference
+        const getThemePreference = () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                return savedTheme;
+            }
+            // Check system preference
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                return 'dark';
+            }
+            return 'light';
+        };
+
+        const currentTheme = getThemePreference();
+        document.body.setAttribute('data-theme', currentTheme);
+
+        // Update icon visibility based on current theme
+        const updateIcons = (theme) => {
+            const sunIcon = document.querySelector('.sun-icon');
+            const moonIcon = document.querySelector('.moon-icon');
+            
+            if (theme === 'dark') {
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            } else {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            }
+        };
+
+        // Initial icon update
+        updateIcons(currentTheme);
+
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcons(newTheme);
+        });
+    </script>
 </body>
 </html>

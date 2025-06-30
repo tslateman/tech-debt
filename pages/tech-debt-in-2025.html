@@ -43,6 +43,36 @@
         --blockquote-border: #d1d5db;
       }
 
+      [data-theme="dark"] {
+        --primary-color: #60a5fa;
+        --text-color: #f3f4f6;
+        --bg-color: #111827;
+        --card-bg: #1f2937;
+        --border-color: #374151;
+        --hover-bg: #374151;
+        --code-bg: #374151;
+        --link-color: #60a5fa;
+        --blockquote-border: #4b5563;
+      }
+
+      /* Better contrast for text in dark mode */
+      [data-theme="dark"] p {
+        color: #d1d5db;
+      }
+
+      [data-theme="dark"] .meta-info {
+        color: #9ca3af;
+      }
+
+      [data-theme="dark"] blockquote {
+        color: #9ca3af;
+      }
+
+      [data-theme="dark"] ul li,
+      [data-theme="dark"] ol li {
+        color: #d1d5db;
+      }
+
       * {
         margin: 0;
         padding: 0;
@@ -174,6 +204,35 @@
         color: var(--text-color);
       }
 
+      /* Dark mode toggle button */
+      .theme-toggle {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 50%;
+        width: 3rem;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s ease;
+      }
+
+      .theme-toggle:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .theme-toggle svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        color: var(--text-color);
+      }
+
       @media (max-width: 768px) {
         .container {
           padding: 1rem;
@@ -189,7 +248,7 @@
       }
     </style>
   </head>
-  <body>
+  <body data-theme="light">
     <div class="container">
       <nav class="nav-bar">
         <a href="../index.html" class="back-link">Back to Index</a>
@@ -396,5 +455,61 @@
         <p>We still have a job! For now, at least.</p>
       </div>
     </div>
+
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="sun-icon">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="moon-icon" style="display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+    </button>
+
+    <script>
+        // Check for saved theme preference or default to system preference
+        const getThemePreference = () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                return savedTheme;
+            }
+            // Check system preference
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                return 'dark';
+            }
+            return 'light';
+        };
+
+        const currentTheme = getThemePreference();
+        document.body.setAttribute('data-theme', currentTheme);
+
+        // Update icon visibility based on current theme
+        const updateIcons = (theme) => {
+            const sunIcon = document.querySelector('.sun-icon');
+            const moonIcon = document.querySelector('.moon-icon');
+            
+            if (theme === 'dark') {
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            } else {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            }
+        };
+
+        // Initial icon update
+        updateIcons(currentTheme);
+
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcons(newTheme);
+        });
+    </script>
   </body>
 </html>
