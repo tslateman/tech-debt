@@ -14,7 +14,7 @@
     <meta property="og:title" content="Technical Debt Documentation Hub">
     <meta property="og:description" content="A curated collection of insights, strategies, and perspectives on understanding and managing technical debt in software development.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://github.com/tslater/tech-debt">
+    <meta property="og:url" content="https://github.com/tslateman/tech-debt">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary">
@@ -53,6 +53,7 @@
             line-height: 1.6;
             color: var(--text-color);
             background-color: var(--bg-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .container {
@@ -98,6 +99,8 @@
             text-decoration: none;
             color: inherit;
             display: block;
+            position: relative;
+            overflow: hidden;
         }
 
         .content-card:hover {
@@ -107,6 +110,39 @@
 
         [data-theme="dark"] .content-card:hover {
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Entrance animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-card {
+            animation: fadeInUp 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .content-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .content-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .content-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .overview-section {
+            animation: fadeInUp 0.5s ease-out;
         }
 
         .card-title {
@@ -197,6 +233,7 @@
             border-radius: 8px;
             padding: 2rem;
             margin-bottom: 3rem;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
         .overview-title {
@@ -208,6 +245,36 @@
         .overview-content {
             color: #4b5563;
             line-height: 1.8;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: #6b7280;
+            transition: border-color 0.3s ease;
+        }
+
+        [data-theme="dark"] footer {
+            color: #9ca3af;
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: center;
         }
 
         @media (max-width: 768px) {
@@ -222,6 +289,18 @@
             .content-grid {
                 grid-template-columns: 1fr;
                 gap: 1rem;
+            }
+
+            .theme-toggle {
+                bottom: 1rem;
+                right: 1rem;
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+
+            .theme-toggle svg {
+                width: 1.25rem;
+                height: 1.25rem;
             }
         }
     </style>
@@ -276,6 +355,17 @@
                 </div>
             </a>
         </div>
+
+        <footer>
+            <div class="footer-content">
+                <div>
+                    <a href="https://github.com/tslateman/tech-debt" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+                </div>
+                <div>
+                    <small>Last updated: June 2025</small>
+                </div>
+            </div>
+        </footer>
     </div>
 
     <!-- Theme Toggle Button -->
