@@ -16,7 +16,6 @@ My previous page on this [Ten Articles on Tech Debt](Ten%20Articles%20on%20Tech%
 
 [https://www.productplan.com/glossary/technical-debt/?hl=en-US](https://www.productplan.com/glossary/technical-debt/?hl=en-US)
 
-
 Good introductory article. Digestible for beginners.
 
 > If you want a simple answer: technical debt is neither good nor bad, it’s debt.
@@ -29,19 +28,19 @@ Bingo. Business staff love to borrow for their goals and have technical staff pa
 
 - My favorite part is the list from “[Towards an Ontology of Terms on Technical Debt](https://pdfs.semanticscholar.org/3ab6/bd6fd72110a18f2d9d442cab03369a6017c5.pdf)"
 
-    - Architecture Debt
-    - Build Debt
-    - Code Debt
-    - Defect Debt
-    - Design Debt
-    - Documentation Debt
-    - Infrastructure Debt
-    - People Debt
-    - Process Debt
-    - Requirement Debt
-    - Service Debt
-    - Test Automation Debt
-    - Test Debt
+  - Architecture Debt
+  - Build Debt
+  - Code Debt
+  - Defect Debt
+  - Design Debt
+  - Documentation Debt
+  - Infrastructure Debt
+  - People Debt
+  - Process Debt
+  - Requirement Debt
+  - Service Debt
+  - Test Automation Debt
+  - Test Debt
 
 ## Tech Debt - by Martin Fowler
 
@@ -71,7 +70,7 @@ Generally good stuff. I might nitpick about its `get_user_data` example borderin
 
 ## It's not your codebase
 
-Sean Goedecke has some interesting takes. This one is counterintuitive, with a healthy dose of balance. A lot of online advice sells ideas about "high ownership" using words like "empower" or "accountability" so much that I'm not sure they mean what the authors think they mean. This post advocates boundaries and trust. I don't totally buy it. However, I also feel like he's got a point. 
+Sean Goedecke has some interesting takes. This one is counterintuitive, with a healthy dose of balance. A lot of online advice sells ideas about "high ownership" using words like "empower" or "accountability" so much that I'm not sure they mean what the authors think they mean. This post advocates boundaries and trust. I don't totally buy it. However, I also feel like he's got a point.
 
 [https://www.seangoedecke.com/not-your-codebase/](https://www.seangoedecke.com/not-your-codebase/)
 
@@ -88,4 +87,3 @@ Paint me gray and call me cynical then! Perhaps I've been burned too many times.
 ## Related
 
 [Ten Articles on Tech Debt](Ten%20Articles%20on%20Tech%20Debt.md)
-

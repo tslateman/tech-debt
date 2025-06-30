@@ -37,8 +37,6 @@ McKinsey's Technical Debt Ratio (TDR) provides a quantitative metric, linking hi
 
 The "interest rate" for technical challenges can be approximated using the formula: (Maintenance Hours / Total Development Hours) × (% Attributed to Technical Debt) × 100.10**
 
-
-
 #### Works cited
 
 *Tech debt metaphor maximalism - apenwarr, accessed June 1, 2025, [https://apenwarr.ca/log/20230605](https://apenwarr.ca/log/20230605)
@@ -46,4 +44,3 @@ The "interest rate" for technical challenges can be approximated using the formu
 **How to Measure Technical Debt: A Guide for IT Stakeholders - Unqork, accessed June 1, 2025, [https://unqork.com/resource-center/guides/how-to-measure-technical-debt-a-guide-for-it-stakeholders/](https://unqork.com/resource-center/guides/how-to-measure-technical-debt-a-guide-for-it-stakeholders/)
 
 ***[Ten Articles on Tech Debt](Ten%20Articles%20on%20Tech%20Debt.md)
-

@@ -18,9 +18,11 @@ This repository serves as a knowledge base for software engineers, technical lea
 ## Viewing the Documentation
 
 ### Web Interface
+
 Open `index.html` in your browser to view the documentation with a clean, responsive interface.
 
 ### Markdown Files
+
 All content is also available as Markdown files in the `pages/` directory for easy reading in your preferred editor or on GitHub.
 
 ## Key Themes Covered
