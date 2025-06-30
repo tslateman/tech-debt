@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ten Articles on Tech Debt - Technical Debt Documentation</title>
+
+    <!-- Meta Tags -->
+    <meta
+      name="description"
+      content="A foundational collection of 10 essential articles exploring various aspects of technical debt, from its origins to practical management approaches."
+    />
+    <meta
+      name="keywords"
+      content="technical debt, software development, code quality, maintenance, refactoring, software engineering"
+    />
+    <meta name="author" content="Tommy Slater" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Ten Articles on Tech Debt" />
+    <meta
+      property="og:description"
+      content="A foundational collection of 10 essential articles exploring various aspects of technical debt, from its origins to practical management approaches."
+    />
+    <meta property="og:type" content="article" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>📚</text></svg>"
+    />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+      :root {
+        --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        --gradient-link: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        
+        --glass-bg: rgba(255, 255, 255, 0.1);
+        --glass-bg-hover: rgba(255, 255, 255, 0.15);
+        --glass-border: rgba(255, 255, 255, 0.2);
+        --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        --glass-shadow-hover: 0 12px 40px 0 rgba(31, 38, 135, 0.45);
+        
+        --text-primary: #ffffff;
+        --text-secondary: rgba(255, 255, 255, 0.9);
+        --text-muted: rgba(255, 255, 255, 0.7);
+        --text-dim: rgba(255, 255, 255, 0.6);
+        
+        --blur-amount: 10px;
+        --code-bg: rgba(255, 255, 255, 0.08);
+        --blockquote-border: rgba(255, 255, 255, 0.3);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        line-height: 1.6;
+        color: var(--text-primary);
+        min-height: 100vh;
+        background: var(--gradient-bg);
+        background-attachment: fixed;
+        overflow-x: hidden;
+      }
+
+      /* Animated background orbs */
+      body::before,
+      body::after {
+        content: '';
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(100px);
+        opacity: 0.7;
+        animation: float 25s ease-in-out infinite;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      body::before {
+        width: 600px;
+        height: 600px;
+        background: #764ba2;
+        top: -300px;
+        left: -300px;
+      }
+
+      body::after {
+        width: 500px;
+        height: 500px;
+        background: #f093fb;
+        bottom: -250px;
+        right: -250px;
+        animation-delay: 12s;
+      }
+
+      @keyframes float {
+        0%, 100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        33% {
+          transform: translate(80px, -80px) rotate(120deg);
+        }
+        66% {
+          transform: translate(-80px, 80px) rotate(240deg);
+        }
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .glass-panel {
+        background: var(--glass-bg);
+        backdrop-filter: blur(var(--blur-amount));
+        -webkit-backdrop-filter: blur(var(--blur-amount));
+        border-radius: 20px;
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--glass-shadow);
+        transition: all 0.3s ease;
+      }
+
+      .nav-bar {
+        margin-bottom: 2rem;
+        animation: slideDown 0.5s ease-out;
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background: var(--glass-bg);
+        backdrop-filter: blur(var(--blur-amount));
+        border: 1px solid var(--glass-border);
+        border-radius: 30px;
+        color: var(--text-primary);
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .back-link:hover {
+        background: var(--glass-bg-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(31, 38, 135, 0.3);
+      }
+
+      .back-link::before {
+        content: "←";
+        font-size: 1.2em;
+      }
+
+      header {
+        margin-bottom: 3rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        animation: fadeIn 0.8s ease-out 0.2s both;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+      }
+
+      .meta-info {
+        display: flex;
+        gap: 2rem;
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        font-weight: 300;
+      }
+
+      .content {
+        padding: 3rem;
+        margin-bottom: 3rem;
+        animation: fadeIn 1s ease-out 0.4s both;
+      }
+
+      h2 {
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin: 2.5rem 0 1.5rem 0;
+        background: var(--gradient-accent);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+        padding-bottom: 0.5rem;
+      }
+
+      h2:first-child {
+        margin-top: 0;
+      }
+
+      h2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      }
+
+      h3 {
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin: 2rem 0 1rem 0;
+        color: var(--text-secondary);
+      }
+
+      p {
+        margin-bottom: 1.25rem;
+        color: var(--text-secondary);
+        font-weight: 300;
+        line-height: 1.8;
+      }
+
+      a {
+        color: #4facfe;
+        text-decoration: none;
+        background: var(--gradient-link);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        position: relative;
+      }
+
+      a:hover {
+        text-shadow: 0 0 20px rgba(79, 172, 254, 0.5);
+      }
+
+      a::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: var(--gradient-link);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      a:hover::after {
+        transform: scaleX(1);
+      }
+
+      blockquote {
+        border-left: 3px solid var(--blockquote-border);
+        padding: 1rem 1.5rem;
+        margin: 1.5rem 0;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        backdrop-filter: blur(5px);
+        font-style: italic;
+        position: relative;
+        overflow: hidden;
+      }
+
+      blockquote::before {
+        content: '"';
+        position: absolute;
+        top: -20px;
+        left: 10px;
+        font-size: 4rem;
+        color: rgba(255, 255, 255, 0.1);
+        font-family: Georgia, serif;
+      }
+
+      blockquote p {
+        color: var(--text-dim);
+        margin-bottom: 0;
+      }
+
+      code {
+        background-color: var(--code-bg);
+        padding: 0.2rem 0.5rem;
+        border-radius: 6px;
+        font-family: 'JetBrains Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+        font-size: 0.875em;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(5px);
+      }
+
+      .related-section {
+        margin-top: 3rem;
+        padding: 2rem;
+        background: var(--glass-bg);
+        backdrop-filter: blur(var(--blur-amount));
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        animation: fadeIn 1s ease-out 0.6s both;
+      }
+
+      .related-section h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .related-section h2::after {
+        display: none;
+      }
+
+      .related-links {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .related-links a {
+        display: block;
+        padding: 1rem 1.5rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        color: var(--text-secondary);
+        font-weight: 400;
+        -webkit-text-fill-color: unset;
+        background-clip: unset;
+      }
+
+      .related-links a:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(10px);
+        box-shadow: 0 5px 20px rgba(31, 38, 135, 0.3);
+      }
+
+      .related-links a::after {
+        display: none;
+      }
+
+      /* Floating decoration */
+      .floating-decoration {
+        position: fixed;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: var(--gradient-accent);
+        filter: blur(120px);
+        opacity: 0.3;
+        pointer-events: none;
+        animation: floatSlow 35s ease-in-out infinite;
+        z-index: -1;
+      }
+
+      .floating-decoration:nth-child(1) {
+        top: 50%;
+        left: -150px;
+      }
+
+      .floating-decoration:nth-child(2) {
+        top: 20%;
+        right: -150px;
+        animation-delay: 17s;
+      }
+
+      @keyframes floatSlow {
+        0%, 100% {
+          transform: translate(0, 0);
+        }
+        50% {
+          transform: translate(100px, -50px);
+        }
+      }
+
+      /* Scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.5);
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 1.5rem;
+        }
+
+        h1 {
+          font-size: 2.25rem;
+        }
+
+        .content {
+          padding: 2rem;
+        }
+
+        .related-links a:hover {
+          transform: translateX(5px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Floating decorations -->
+    <div class="floating-decoration"></div>
+    <div class="floating-decoration"></div>
+    
+    <div class="container">
+      <nav class="nav-bar">
+        <a href="../index.html" class="back-link">Back to Index</a>
+      </nav>
+
+      <header>
+        <h1>Ten Articles on Tech Debt</h1>
+        <div class="meta-info">
+          <span>Created: June 1, 2025</span>
+          <span>Modified: June 14, 2025</span>
+        </div>
+      </header>
+
+      <div class="content glass-panel">
+        <h2>"Clarifying Technical Debt"</h2>
+        <p>
+          <a
+            href="https://davidedwards.io/blog/2024/12/29/clarifying-technical-debt"
+            target="_blank"
+            >https://davidedwards.io/blog/2024/12/29/clarifying-technical-debt</a
+          >
+        </p>
+        <p>When you say "tech debt" do you include quality issues?</p>
+        <blockquote>
+          <p>
+            clumping quality issues into the nebulous bucket of
+            <em>technical debt</em> is that organizations outside of software
+            engineering, product management included, are free to interpret as
+            they wish. It is not uncommon for people to equate technical debt
+            with
+            <em>"the engineers made a bunch of mistakes or bad decisions"</em>
+          </p>
+        </blockquote>
+        <p>
+          Were they necessary shortcuts, even mandated by non-engineers? Do we
+          need new language?
+        </p>
+        <blockquote>
+          <p>
+            I would strongly encourage software organizations to eliminate
+            <em>technical debt</em> from their vocabulary–particularly when it
+            comes to planning–in exchange for clearly articulated quality
+            improvements connected to business outcomes.
+          </p>
+        </blockquote>
+        <p>
+          Noble, idealistic concept. <em>Good luck.</em> My attempts at these
+          conversations have resulted in non-technical folks getting impatient,
+          eyes glazing over, and people walking away with the wrong
+          understanding and dubious conclusions.
+        </p>
+
+        <h2>"Stop saying "technical debt""</h2>
+        <p>
+          <a
+            href="https://stackoverflow.blog/2023/12/27/stop-saying-technical-debt/"
+            target="_blank"
+            >https://stackoverflow.blog/2023/12/27/stop-saying-technical-debt/</a
+          >
+        </p>
+        <p>Optimistic. Fine, let's go ahead and set the Platonic ideal.</p>
+        <blockquote>
+          <p>
+            How do we minimize maintenance load growth? With
+            <a
+              href="https://stackoverflow.blog/2023/10/16/from-interns-to-intern-managers-the-college-to-career-pipeline-at-stack-overflow/"
+              >effective engineering management</a
+            >
+            and
+            <a href="https://stackoverflow.blog/2023/10/18/a-flight-simulator-for-developers/">
+              developer mentorship</a>
+            on the one hand, and
+            <a
+              href="https://stackoverflow.blog/2022/10/12/the-three-types-of-platform-teams/"
+            >
+              investment in high-leverage technical capabilities
+            </a>
+            on the other. Engineers need time to learn how to write better
+            code, and management needs better communication and prioritization
+            between engineers and the business.
+          </p>
+        </blockquote>
+        <p>
+          So it's all about: keep your senior engineers happy. Some concrete
+          advice:
+        </p>
+        <blockquote>
+          <p>
+            Maintenance shouldn't be a separate process—it should be a regular
+            part of feature development. Adding something cool to your tree
+            house? Start by raking up some of the toys that were left behind
+            from the last tea party. Want to clean up the rickety bridge on
+            the west side? Do that when we're adding a rope swing that crosses
+            above it.
+          </p>
+        </blockquote>
+        <p>
+          Ah yes, the boy scout rule. Of course it's easier when you have a
+          good test suite. So that's a TDR1.
+        </p>
+
+        <h2>
+          "Developers spend 23% of their time dealing with technical debt,
+          research states"
+        </h2>
+        <p>
+          <a
+            href="https://www.theregister.com/2024/02/12/devs_spend_almost_a_quarter/"
+            target="_blank"
+            >https://www.theregister.com/2024/02/12/devs_spend_almost_a_quarter/</a
+          >
+        </p>
+        <p>
+          I don't mind eating vegetables for 23% of my meals, but if I wasn't
+          able to eat food at all and was restricted to supplements, it would
+          get old, fast.
+        </p>
+        <blockquote>
+          <p>
+            Other tidbits include that only 10 percent of total developer time
+            is spent on deep work; 58 percent of devs are interrupted three or
+            more times a day, and 45 percent struggle to find a single
+            two-hour time period to focus on work. We imagine this is mostly
+            down to the culture of collaboration brought about by instant
+            messaging, video calling, and all the instant responses that brings
+            with it
+          </p>
+        </blockquote>
+        <p>
+          Two hours uninterrupted – that's literally all we ask for, people.
+        </p>
+
+        <h2>"Escaping Tech Debt"</h2>
+        <p>
+          <a
+            href="https://benford.io/blog/escaping-tech-debt/"
+            target="_blank"
+            >https://benford.io/blog/escaping-tech-debt/</a
+          >
+        </p>
+        <blockquote>
+          <p>
+            We had been told to delay a new installation of our software
+            product by at least a month to allow our team to pay down some
+            debt before we took on another client.
+          </p>
+        </blockquote>
+        <p>That's <em>dire.</em> The response is perfect though:</p>
+        <blockquote>
+          <p>
+            The solution is that each team adopts a 20% tech debt policy, and
+            carefully curates a tech debt backlog.
+          </p>
+        </blockquote>
+        <p>And:</p>
+        <blockquote>
+          <p>
+            We didn't say there was some critical bug, we didn't say there was
+            some critical thing we needed to work on right now. We said that
+            there is stuff that is costing us, and we showed how it was
+            costing us. And we said, we can improve engineering velocity. We
+            didn't explain what the technical problem was, we explained what
+            the business impact was. And critically we didn't say that we'd
+            drop everything we were doing right now. We would invest, a fixed
+            percentage, but an appropriate percentage, to improve things over
+            time.
+          </p>
+        </blockquote>
+        <p>This is the ideal.</p>
+
+        <h2>"The True Cost of Tech Debt"</h2>
+        <p>
+          <a href="https://leaddev.com/tech/true-cost-tech-debt" target="_blank">
+            https://leaddev.com/tech/true-cost-tech-debt
+          </a>
+        </p>
+        <p>
+          Some hard number approximations:
+        </p>
+        <blockquote>
+          <p>
+            You can see that three years into the project, they will have
+            spent over $2M on interest alone for tech debt. Over five years,
+            the interest payments alone are at $4.5M; overall, the product has
+            cost more than 17% of the total budget solely due to interest.
+          </p>
+        </blockquote>
+        <p>This is very important:</p>
+        <blockquote>
+          <p>
+            The most common way leadership teams get into unmanageable debt is
+            by ignoring it. They hear about it, but they immediately shut down
+            conversations on the topic because they worry it will derail their
+            roadmap. The simplest thing you can do is to create an environment
+            where it's safe to talk about tech debt.
+          </p>
+        </blockquote>
+        <p>Tracking tech debt levels is the first step toward managing it.</p>
+
+        <h2>"Technical debt as a lack of understanding"</h2>
+        <p>
+          <a
+            href="https://daverupert.com/2020/11/technical-debt-as-a-lack-of-understanding/"
+            target="_blank"
+            >https://daverupert.com/2020/11/technical-debt-as-a-lack-of-understanding/</a
+          >
+        </p>
+        <blockquote>
+          <p>
+            The amount of technical debt you have increases in direct
+            proportion to your lack of understanding. Put another way, the
+            more you understand the business domain you're modeling with code,
+            the more you minimize your technical debt.
+          </p>
+        </blockquote>
+        <p>
+          It's rarely shortcuts that create tech debt. It's lack of
+          understanding.
+        </p>
+
+        <h2>The 3 kinds of tech debt</h2>
+        <p>
+          <a
+            href="https://andrewchen.com/3-kinds-of-tech-debt/"
+            target="_blank"
+            >https://andrewchen.com/3-kinds-of-tech-debt/</a
+          >
+        </p>
+        <p>Tech debt comes in several forms, classified by seriousness:</p>
+        <ol>
+          <li>
+            <strong>Local tech debt</strong> – An issue that's contained within a
+            specific area and affects only that module
+          </li>
+          <li>
+            <strong>Mac n' cheese tech debt</strong> – "The product looks fine from the
+            outside but is spaghetti code underneath." This creates widespread issues
+            across the codebase
+          </li>
+          <li>
+            <strong>Whoopsie</strong> – Critical architectural decisions that affect the
+            entire system, like poor database design or infrastructure choices
+          </li>
+        </ol>
+
+        <h2>"Why software projects fail"</h2>
+        <p>
+          <a
+            href="https://blog.ploeh.dk/2021/06/21/agile-pull-requests/"
+            target="_blank"
+            >https://blog.ploeh.dk/2021/06/21/agile-pull-requests/</a
+          >
+        </p>
+        <blockquote>
+          <p>
+            The longer a defect remains undetected, the more expensive it is
+            to correct. Research literature is full of results that confirm
+            this
+          </p>
+        </blockquote>
+        <p>
+          The key insight: early detection and correction of issues is vastly
+          cheaper than fixing them later. This reinforces the importance of code
+          reviews, testing, and maintaining quality standards from the start.
+        </p>
+
+        <h2>"Technical Debt: A Repayment Plan"</h2>
+        <p>
+          <a
+            href="https://www.infoq.com/articles/technical-debt-repayment/"
+            target="_blank"
+            >https://www.infoq.com/articles/technical-debt-repayment/</a
+          >
+        </p>
+        <p>Key strategies for managing technical debt:</p>
+        <ul>
+          <li>Create a technical debt register to track and prioritize issues</li>
+          <li>Allocate a percentage of each sprint to debt reduction</li>
+          <li>Tie debt reduction to business value and communicate in those terms</li>
+          <li>Focus on high-interest debt that compounds quickly</li>
+        </ul>
+
+        <h2>"The Wall of Technical Debt"</h2>
+        <p>
+          <a
+            href="https://verraes.net/2020/01/wall-of-technical-debt/"
+            target="_blank"
+            >https://verraes.net/2020/01/wall-of-technical-debt/</a
+          >
+        </p>
+        <blockquote>
+          <p>
+            Make technical debt visible. Put it on a wall where everyone can
+            see it. Use different colors for different types of debt. Update
+            it regularly. Make it impossible to ignore.
+          </p>
+        </blockquote>
+        <p>
+          Visualization is a powerful tool for managing technical debt. When
+          debt is hidden in issue trackers or backlogs, it's easy to ignore.
+          When it's on a physical wall or dashboard that everyone sees daily,
+          it becomes part of the team's consciousness.
+        </p>
+      </div>
+
+      <div class="related-section">
+        <h2>Related Documents</h2>
+        <div class="related-links">
+          <a href="five-more-posts-on-tech-debt.html">Five More Posts on Tech Debt</a>
+          <a href="tech-debt-in-2025.html">Tech Debt in 2025</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

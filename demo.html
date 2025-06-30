@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Debt Documentation - Style Selector</title>
+    <meta name="description" content="Choose your preferred style for viewing the Technical Debt Documentation Hub">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>🎨</text></svg>">
+    
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --text-color: #1f2937;
+            --bg-color: #f9fafb;
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --text-secondary: #6b7280;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #3b82f6;
+            --primary-hover: #2563eb;
+            --text-color: #f3f4f6;
+            --bg-color: #111827;
+            --card-bg: #1f2937;
+            --border-color: #374151;
+            --text-secondary: #9ca3af;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            background: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .style-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .style-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .style-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Classic Style */
+        .style-card.classic {
+            border-color: var(--primary-color);
+        }
+
+        .style-card.classic:hover {
+            box-shadow: 0 0 30px rgba(37, 99, 235, 0.2);
+        }
+
+        /* Brutalist Style */
+        .style-card.brutalist {
+            background: #000;
+            border: 8px solid #000;
+            color: #fff;
+            border-radius: 0;
+        }
+
+        .style-card.brutalist:hover {
+            transform: translateY(-5px) translateX(5px);
+            box-shadow: 10px 10px 0 #333;
+        }
+
+        /* Terminal Style */
+        .style-card.terminal {
+            background: #000;
+            border: 2px solid #00ff00;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+        }
+
+        .style-card.terminal:hover {
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        /* Glassmorphism Style */
+        .style-card.glassmorphism {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .style-card.glassmorphism::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            z-index: 1;
+        }
+
+        .style-card.glassmorphism > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .style-card.glassmorphism:hover {
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Newspaper Style */
+        .style-card.newspaper {
+            background: #fffef9;
+            border: 3px double #1a1a1a;
+            color: #1a1a1a;
+        }
+
+        .style-card.newspaper:hover {
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Cyberpunk Style */
+        .style-card.cyberpunk {
+            background: #0a0a0a;
+            border: 2px solid #00ffff;
+            color: white;
+        }
+
+        .style-card.cyberpunk:hover {
+            border-color: #ff006e;
+            box-shadow: 0 0 30px rgba(255, 0, 110, 0.6);
+        }
+
+        .style-card.cyberpunk::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .style-card.cyberpunk:hover::before {
+            left: 100%;
+        }
+
+        .style-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .brutalist .style-title {
+            font-family: monospace;
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+        }
+
+        .terminal .style-title {
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+        }
+
+        .glassmorphism .style-title {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+        }
+
+        .newspaper .style-title {
+            font-family: 'Times New Roman', serif;
+            font-weight: 900;
+        }
+
+        .cyberpunk .style-title {
+            font-family: 'Orbitron', monospace;
+            color: #00ffff;
+            text-shadow: 0 0 20px #00ffff;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .style-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .style-card.brutalist .style-description,
+        .style-card.terminal .style-description,
+        .style-card.glassmorphism .style-description,
+        .style-card.cyberpunk .style-description {
+            color: inherit;
+            opacity: 0.9;
+        }
+
+        .style-card.newspaper .style-description {
+            font-family: 'Georgia', serif;
+            color: #333;
+        }
+
+        .enter-button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s;
+            font-size: 0.875rem;
+        }
+
+        .classic .enter-button {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .classic .enter-button:hover {
+            background: var(--primary-hover);
+        }
+
+        .brutalist .enter-button {
+            background: #fff;
+            color: #000;
+            border-radius: 0;
+            font-family: monospace;
+        }
+
+        .terminal .enter-button {
+            background: transparent;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            font-family: monospace;
+        }
+
+        .glassmorphism .enter-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+
+        .newspaper .enter-button {
+            background: #1a1a1a;
+            color: #fffef9;
+            font-family: serif;
+            border-radius: 0;
+        }
+
+        .cyberpunk .enter-button {
+            background: transparent;
+            color: #ff006e;
+            border: 2px solid #ff006e;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .cyberpunk .enter-button:hover {
+            background: #ff006e;
+            color: #0a0a0a;
+            text-shadow: none;
+            box-shadow: 0 0 20px #ff006e;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .theme-toggle svg {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: var(--text-color);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+            color: var(--text-secondary);
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .style-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .theme-toggle {
+                bottom: 1rem;
+                right: 1rem;
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+
+            .theme-toggle svg {
+                width: 1.25rem;
+                height: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="container">
+        <header>
+            <h1>Technical Debt Documentation</h1>
+            <p class="subtitle">Choose your preferred style for exploring technical debt insights</p>
+        </header>
+        
+        <div class="style-grid">
+            <a href="index.html" class="style-card classic">
+                <h2 class="style-title">Classic</h2>
+                <p class="style-description">
+                    Clean, professional interface with light/dark mode toggle. 
+                    Optimal for focused reading and research with modern accessibility features.
+                </p>
+                <span class="enter-button">Enter Classic</span>
+            </a>
+
+            <a href="styles/brutalist/index.html" class="style-card brutalist">
+                <h2 class="style-title">BRUTALIST</h2>
+                <p class="style-description">
+                    Bold, uncompromising design with harsh contrasts and raw typography. 
+                    No frills, just powerful visual impact.
+                </p>
+                <span class="enter-button">ENTER</span>
+            </a>
+
+            <a href="styles/terminal/index.html" class="style-card terminal">
+                <h2 class="style-title">TERMINAL&gt;</h2>
+                <p class="style-description">
+                    Retro DOS/terminal interface with green phosphor glow. 
+                    Navigate technical debt like it's 1985.
+                </p>
+                <span class="enter-button">[LOAD_DOCS]</span>
+            </a>
+
+            <a href="styles/glassmorphism/index.html" class="style-card glassmorphism">
+                <h2 class="style-title">Glassmorphism</h2>
+                <p class="style-description">
+                    Modern frosted glass aesthetic with vibrant gradients. 
+                    Beautiful transparency effects and smooth animations.
+                </p>
+                <span class="enter-button">Enter Glass</span>
+            </a>
+
+            <a href="styles/newspaper/index.html" class="style-card newspaper">
+                <h2 class="style-title">The Tribune</h2>
+                <p class="style-description">
+                    Classic newspaper layout with traditional typography. 
+                    Read tech debt articles like morning headlines.
+                </p>
+                <span class="enter-button">READ EDITION</span>
+            </a>
+            
+            <a href="styles/cyberpunk/index.html" class="style-card cyberpunk">
+                <h2 class="style-title">CYBERPUNK_2077</h2>
+                <p class="style-description">
+                    Neon-infused digital dystopia with glitch effects. 
+                    Navigate tech debt through a cybernetic lens.
+                </p>
+                <span class="enter-button">[ACCESS_MAINFRAME]</span>
+            </a>
+        </div>
+
+        <footer>
+            <p>
+                <a href="https://github.com/tslateman/tech-debt" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+                &bull;
+                Created with ❤️ for better technical debt management
+            </p>
+        </footer>
+    </div>
+
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="sun-icon">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="moon-icon" style="display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+    </button>
+
+    <script>
+        // Check for saved theme preference or default to 'light'
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', currentTheme);
+
+        // Update icon visibility based on current theme
+        const updateIcons = (theme) => {
+            const sunIcon = document.querySelector('.sun-icon');
+            const moonIcon = document.querySelector('.moon-icon');
+            
+            if (theme === 'dark') {
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            } else {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            }
+        };
+
+        // Initial icon update
+        updateIcons(currentTheme);
+
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcons(newTheme);
+        });
+    </script>
+</body>
+</html>

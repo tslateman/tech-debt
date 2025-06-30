@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Five More Posts on Tech Debt - Technical Debt Documentation</title>
+
+    <!-- Meta Tags -->
+    <meta
+      name="description"
+      content="Additional perspectives and insights on technical debt, supplementing the main collection with more recent thinking and approaches."
+    />
+    <meta
+      name="keywords"
+      content="technical debt, software development, code quality, maintenance, refactoring, software engineering"
+    />
+    <meta name="author" content="Tommy Slater" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Five More Posts on Tech Debt" />
+    <meta
+      property="og:description"
+      content="Additional perspectives and insights on technical debt, supplementing the main collection with more recent thinking and approaches."
+    />
+    <meta property="og:type" content="article" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>📚</text></svg>"
+    />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+      :root {
+        --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        --gradient-link: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        
+        --glass-bg: rgba(255, 255, 255, 0.1);
+        --glass-bg-hover: rgba(255, 255, 255, 0.15);
+        --glass-border: rgba(255, 255, 255, 0.2);
+        --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        --glass-shadow-hover: 0 12px 40px 0 rgba(31, 38, 135, 0.45);
+        
+        --text-primary: #ffffff;
+        --text-secondary: rgba(255, 255, 255, 0.9);
+        --text-muted: rgba(255, 255, 255, 0.7);
+        --text-dim: rgba(255, 255, 255, 0.6);
+        
+        --blur-amount: 10px;
+        --code-bg: rgba(255, 255, 255, 0.08);
+        --blockquote-border: rgba(255, 255, 255, 0.3);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        line-height: 1.6;
+        color: var(--text-primary);
+        min-height: 100vh;
+        background: var(--gradient-bg);
+        background-attachment: fixed;
+        overflow-x: hidden;
+      }
+
+      /* Animated background orbs */
+      body::before,
+      body::after {
+        content: '';
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(100px);
+        opacity: 0.7;
+        animation: float 25s ease-in-out infinite;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      body::before {
+        width: 600px;
+        height: 600px;
+        background: #764ba2;
+        top: -300px;
+        left: -300px;
+      }
+
+      body::after {
+        width: 500px;
+        height: 500px;
+        background: #f093fb;
+        bottom: -250px;
+        right: -250px;
+        animation-delay: 12s;
+      }
+
+      @keyframes float {
+        0%, 100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        33% {
+          transform: translate(80px, -80px) rotate(120deg);
+        }
+        66% {
+          transform: translate(-80px, 80px) rotate(240deg);
+        }
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .glass-panel {
+        background: var(--glass-bg);
+        backdrop-filter: blur(var(--blur-amount));
+        -webkit-backdrop-filter: blur(var(--blur-amount));
+        border-radius: 20px;
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--glass-shadow);
+        transition: all 0.3s ease;
+      }
+
+      .nav-bar {
+        margin-bottom: 2rem;
+        animation: slideDown 0.5s ease-out;
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background: var(--glass-bg);
+        backdrop-filter: blur(var(--blur-amount));
+        border: 1px solid var(--glass-border);
+        border-radius: 30px;
+        color: var(--text-primary);
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .back-link:hover {
+        background: var(--glass-bg-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(31, 38, 135, 0.3);
+      }
+
+      .back-link::before {
+        content: "←";
+        font-size: 1.2em;
+      }
+
+      header {
+        margin-bottom: 3rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        animation: fadeIn 0.8s ease-out 0.2s both;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+      }
+
+      .meta-info {
+        display: flex;
+        gap: 2rem;
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        font-weight: 300;
+      }
+
+      .content {
+        padding: 3rem;
+        margin-bottom: 3rem;
+        animation: fadeIn 1s ease-out 0.4s both;
+      }
+
+      h2 {
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin: 2.5rem 0 1.5rem 0;
+        background: var(--gradient-accent);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+        padding-bottom: 0.5rem;
+      }
+
+      h2:first-child {
+        margin-top: 0;
+      }
+
+      h2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      }
+
+      h3 {
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin: 2rem 0 1rem 0;
+        color: var(--text-secondary);
+      }
+
+      p {
+        margin-bottom: 1.25rem;
+        color: var(--text-secondary);
+        font-weight: 300;
+        line-height: 1.8;
+      }
+
+      a {
+        color: #4facfe;
+        text-decoration: none;
+        background: var(--gradient-link);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        position: relative;
+      }
+
+      a:hover {
+        text-shadow: 0 0 20px rgba(79, 172, 254, 0.5);
+      }
+
+      a::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: var(--gradient-link);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      a:hover::after {
+        transform: scaleX(1);
+      }
+
+      blockquote {
+        border-left: 3px solid var(--blockquote-border);
+        padding: 1rem 1.5rem;
+        margin: 1.5rem 0;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        backdrop-filter: blur(5px);
+        font-style: italic;
+        position: relative;
+        overflow: hidden;
+      }
+
+      blockquote::before {
+        content: '"';
+        position: absolute;
+        top: -20px;
+        left: 10px;
+        font-size: 4rem;
+        color: rgba(255, 255, 255, 0.1);
+        font-family: Georgia, serif;
+      }
+
+      blockquote p {
+        color: var(--text-dim);
+        margin-bottom: 0;
+      }
+
+      code {
+        background-color: var(--code-bg);
+        padding: 0.2rem 0.5rem;
+        border-radius: 6px;
+        font-family: 'JetBrains Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+        font-size: 0.875em;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(5px);
+      }
+
+      ul {
+        margin: 1rem 0;
+        padding-left: 2rem;
+        color: var(--text-secondary);
+      }
+
+      li {
+        margin-bottom: 0.5rem;
+        font-weight: 300;
+      }
+
+      /* Nested list styling */
+      ul ul {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      ul ul li {
+        list-style-type: circle;
+        color: var(--text-muted);
+      }
+
+      .related-section {
+        margin-top: 3rem;
+        padding: 2rem;
+        background: var(--glass-bg);
+        backdrop-filter: blur(var(--blur-amount));
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        animation: fadeIn 1s ease-out 0.6s both;
+      }
+
+      .related-section h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .related-section h2::after {
+        display: none;
+      }
+
+      .related-links {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .related-links a {
+        display: block;
+        padding: 1rem 1.5rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        color: var(--text-secondary);
+        font-weight: 400;
+        -webkit-text-fill-color: unset;
+        background-clip: unset;
+      }
+
+      .related-links a:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(10px);
+        box-shadow: 0 5px 20px rgba(31, 38, 135, 0.3);
+      }
+
+      .related-links a::after {
+        display: none;
+      }
+
+      /* Floating decoration */
+      .floating-decoration {
+        position: fixed;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: var(--gradient-accent);
+        filter: blur(120px);
+        opacity: 0.3;
+        pointer-events: none;
+        animation: floatSlow 35s ease-in-out infinite;
+        z-index: -1;
+      }
+
+      .floating-decoration:nth-child(1) {
+        top: 50%;
+        left: -150px;
+      }
+
+      .floating-decoration:nth-child(2) {
+        top: 20%;
+        right: -150px;
+        animation-delay: 17s;
+      }
+
+      @keyframes floatSlow {
+        0%, 100% {
+          transform: translate(0, 0);
+        }
+        50% {
+          transform: translate(100px, -50px);
+        }
+      }
+
+      /* Scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.5);
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 1.5rem;
+        }
+
+        h1 {
+          font-size: 2.25rem;
+        }
+
+        .content {
+          padding: 2rem;
+        }
+
+        .related-links a:hover {
+          transform: translateX(5px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Floating decorations -->
+    <div class="floating-decoration"></div>
+    <div class="floating-decoration"></div>
+    
+    <div class="container">
+      <nav class="nav-bar">
+        <a href="../index.html" class="back-link">Back to Index</a>
+      </nav>
+
+      <header>
+        <h1>Five More Posts on Tech Debt</h1>
+        <div class="meta-info">
+          <span>Created: June 5, 2025</span>
+          <span>Modified: June 14, 2025</span>
+        </div>
+      </header>
+
+      <div class="content glass-panel">
+        <p>
+          My previous page on this
+          <a href="ten-articles-on-tech-debt.html">Ten Articles on Tech Debt</a>
+          missed a few excellent sources.
+        </p>
+
+        <h2>Technical Debt (intro guide)</h2>
+        <p>
+          <a
+            href="https://www.productplan.com/glossary/technical-debt/?hl=en-US"
+            target="_blank"
+            >https://www.productplan.com/glossary/technical-debt/?hl=en-US</a
+          >
+        </p>
+        <p>Good introductory article. Digestible for beginners.</p>
+        <blockquote>
+          <p>
+            If you want a simple answer: technical debt is neither good nor bad,
+            it's debt.
+          </p>
+        </blockquote>
+        <p>Fair, I guess. Dangerous in the wrong hands, though.</p>
+        <blockquote>
+          <p>
+            Technical staff, he says, often are tasked with trying to explain
+            technical debt to business staff, who may not immediately see the
+            implications. "The main issue seems to be that, unlike financial
+            debt, technical debt is much less visible, and so people have an
+            easier time ignoring it," he suggests.
+          </p>
+        </blockquote>
+        <p>
+          Bingo. Business staff love to borrow for their goals and have
+          technical staff pay it off. Then they turn around and complain about
+          technical staff taking longer to deliver. Things start to spiral from
+          there with expanded padding in estimates and eroding quality as burned
+          out engineers stop trying.
+        </p>
+        <ul>
+          <li>
+            My favorite part is the list from "<a
+              href="https://pdfs.semanticscholar.org/3ab6/bd6fd72110a18f2d9d442cab03369a6017c5.pdf"
+              target="_blank"
+              >Towards an Ontology of Terms on Technical Debt</a
+            >":
+            <ul>
+              <li>Architecture Debt</li>
+              <li>Build Debt</li>
+              <li>Code Debt</li>
+              <li>Defect Debt</li>
+              <li>Design Debt</li>
+              <li>Documentation Debt</li>
+              <li>Infrastructure Debt</li>
+              <li>People Debt</li>
+              <li>Process Debt</li>
+              <li>Requirement Debt</li>
+              <li>Service Debt</li>
+              <li>Test Automation Debt</li>
+              <li>Test Debt</li>
+            </ul>
+          </li>
+        </ul>
+
+        <h2>Tech Debt - by Martin Fowler</h2>
+        <p>
+          <a
+            href="https://martinfowler.com/bliki/TechnicalDebt.html?hl=en-US"
+            target="_blank"
+            >https://martinfowler.com/bliki/TechnicalDebt.html?hl=en-US</a
+          >
+        </p>
+        <blockquote>
+          <p>
+            Cruft has a quick impact, slowing down the very new features that
+            are needed quickly. Teams who do this end up maxing out all their
+            credit cards, but still delivering later than they would have done
+            had they put the effort into higher internal quality.
+          </p>
+        </blockquote>
+        <p>
+          Preach! Also love the often cited
+          <a
+            href="https://martinfowler.com/bliki/TechnicalDebtQuadrant.html"
+            target="_blank"
+            >TechnicalDebtQuadrant</a
+          >.
+        </p>
+        <p>
+          Martin is an Engineer's champion. He's clever with detail and cites
+          good sources.
+        </p>
+
+        <h2>Similarities Between Tech Debt and 'Money' Debt</h2>
+        <p>
+          A delightful comparison in a table.<br />
+          <a
+            href="https://marcgg.com/blog/2025/02/20/tech-debt/"
+            target="_blank"
+            >https://marcgg.com/blog/2025/02/20/tech-debt/</a
+          >
+        </p>
+        <blockquote>
+          <p>
+            Often people only see the "ship faster" part, but forget about the
+            rest… just like they see how nice the new car will be while
+            forgetting about the 8% interest.
+          </p>
+        </blockquote>
+        <p>
+          This is a great blog. There's a cool post about
+          <a
+            href="https://marcgg.com/blog/2020/06/04/force-multipliers/"
+            target="_blank"
+            >Force Multipliers</a
+          >
+          that talks a little about team composition, too.
+        </p>
+
+        <h2>Technical Debt Explained (by Codacy)</h2>
+        <p>
+          A good comprehensive overview including explanation, analysis, and
+          solutions.<br />
+          <a href="https://blog.codacy.com/technical-debt" target="_blank"
+            >https://blog.codacy.com/technical-debt</a
+          >
+        </p>
+        <p>
+          Generally good stuff. I might nitpick about its
+          <code>get_user_data</code> example bordering on an unproductive part
+          of Uncle Bob Clean Code theory that favors over-abstraction, too much
+          indirection of logic, and ultimately makes code worse. That's a topic
+          for another page.
+        </p>
+
+        <h2>It's not your codebase</h2>
+        <p>
+          Sean Goedecke has some interesting takes. This one is
+          counterintuitive, with a healthy dose of balance. A lot of online
+          advice sells ideas about "high ownership" using words like "empower"
+          or "accountability" so much that I'm not sure they mean what the
+          authors think they mean. This post advocates boundaries and trust. I
+          don't totally buy it. However, I also feel like he's got a point.
+        </p>
+        <p>
+          <a
+            href="https://www.seangoedecke.com/not-your-codebase/"
+            target="_blank"
+            >https://www.seangoedecke.com/not-your-codebase/</a
+          >
+        </p>
+        <p>
+          He presents a steelman argument about Engineers resisting managers
+          incentivized for tech debt...
+        </p>
+        <blockquote>
+          <p>
+            Engineers should fight against this, because it's in their interest
+            to not trash their own codebases, and it's in the broader company
+            interest to maintain a healthier codebase long-term (even if
+            individual managers disagree).
+          </p>
+        </blockquote>
+        <p>... then counters</p>
+        <blockquote>
+          <p>
+            This does sometimes happen. But it's a deeply cynical way of looking
+            at your work. I've worked with managers and product managers who
+            were only interested in short-term gain. But I've also worked with
+            managers and product managers who genuinely wanted to do the right
+            thing, and only pushed for short-term gain when there was actually a
+            strong reason.
+          </p>
+        </blockquote>
+        <p>
+          Paint me gray and call me cynical then! Perhaps I've been burned too
+          many times. People play to their incentives and rules. I often see
+          moral hazard and tragedy of the commons at play as bad code happens to
+          good people, and then good people get blamed. Would trust and shared
+          responsibility be better? Of course. Do humans reliably work like
+          that? Show me more proof. The best part of the post is a reminder that
+          the code and its debt ultimately belong to the company. We're just the
+          help.
+        </p>
+      </div>
+
+      <div class="related-section">
+        <h2>Related</h2>
+        <div class="related-links">
+          <a href="ten-articles-on-tech-debt.html">Ten Articles on Tech Debt</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

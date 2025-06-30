@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Debt Documentation - Cyberpunk Edition</title>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="A curated collection of insights, strategies, and perspectives on understanding and managing technical debt in software development - Cyberpunk Edition.">
+    <meta name="keywords" content="technical debt, software development, code quality, maintenance, refactoring, software engineering, cyberpunk">
+    <meta name="author" content="Tommy Slater">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Technical Debt Documentation Hub - Cyberpunk Edition">
+    <meta property="og:description" content="A curated collection of insights, strategies, and perspectives on understanding and managing technical debt in software development.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.com/tslateman/tech-debt">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Technical Debt Documentation Hub - Cyberpunk Edition">
+    <meta name="twitter:description" content="A curated collection of insights, strategies, and perspectives on understanding and managing technical debt.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>💾</text></svg>">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --neon-pink: #ff006e;
+            --neon-cyan: #00ffff;
+            --neon-purple: #8b00ff;
+            --neon-green: #00ff00;
+            --dark-bg: #0a0a0a;
+            --darker-bg: #050505;
+            --card-bg: #1a0a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #b8b8b8;
+            --border-neon: #ff00ff;
+        }
+
+        @keyframes glitch {
+            0% {
+                text-shadow: 
+                    0.05em 0 0 #00ffff,
+                    -0.05em -0.025em 0 #ff00ff,
+                    0.025em 0.05em 0 #ffff00;
+            }
+            15% {
+                text-shadow: 
+                    0.05em 0 0 #00ffff,
+                    -0.05em -0.025em 0 #ff00ff,
+                    0.025em 0.05em 0 #ffff00;
+            }
+            16% {
+                text-shadow: 
+                    -0.05em -0.025em 0 #00ffff,
+                    0.025em 0.025em 0 #ff00ff,
+                    -0.05em -0.05em 0 #ffff00;
+            }
+            49% {
+                text-shadow: 
+                    -0.05em -0.025em 0 #00ffff,
+                    0.025em 0.025em 0 #ff00ff,
+                    -0.05em -0.05em 0 #ffff00;
+            }
+            50% {
+                text-shadow: 
+                    0.025em 0.05em 0 #00ffff,
+                    0.05em 0 0 #ff00ff,
+                    0 -0.05em 0 #ffff00;
+            }
+            99% {
+                text-shadow: 
+                    0.025em 0.05em 0 #00ffff,
+                    0.05em 0 0 #ff00ff,
+                    0 -0.05em 0 #ffff00;
+            }
+            100% {
+                text-shadow: 
+                    -0.025em 0 0 #00ffff,
+                    -0.025em -0.025em 0 #ff00ff,
+                    -0.025em -0.05em 0 #ffff00;
+            }
+        }
+
+        @keyframes neon-pulse {
+            0%, 100% {
+                opacity: 1;
+                filter: brightness(1) saturate(1);
+            }
+            50% {
+                opacity: 0.8;
+                filter: brightness(1.2) saturate(1.5);
+            }
+        }
+
+        @keyframes scan-line {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+
+        @keyframes gradient-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--dark-bg);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 0, 255, 0.03) 2px,
+                    rgba(255, 0, 255, 0.03) 4px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 255, 255, 0.03) 2px,
+                    rgba(0, 255, 255, 0.03) 4px
+                );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--neon-cyan);
+            box-shadow: 0 0 10px var(--neon-cyan);
+            animation: scan-line 8s linear infinite;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-cyan), var(--neon-purple));
+            background-size: 200% 200%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-shift 3s ease infinite;
+            filter: drop-shadow(0 0 20px var(--neon-pink));
+        }
+
+        h1:hover {
+            animation: glitch 0.3s infinite;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--neon-cyan);
+            letter-spacing: 0.1em;
+        }
+
+        .overview-section {
+            background: var(--card-bg);
+            border: 2px solid var(--neon-purple);
+            border-radius: 0;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+            box-shadow: 
+                0 0 20px rgba(139, 0, 255, 0.5),
+                inset 0 0 20px rgba(139, 0, 255, 0.1);
+            animation: neon-pulse 2s ease-in-out infinite;
+        }
+
+        .overview-section::before {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-cyan), var(--neon-purple), var(--neon-green));
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0.5;
+        }
+
+        .overview-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--neon-pink);
+            text-shadow: 0 0 15px var(--neon-pink);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .overview-content {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .content-card {
+            background: var(--card-bg);
+            border: 1px solid var(--neon-cyan);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+            overflow: hidden;
+            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+        }
+
+        .content-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .content-card:hover::before {
+            left: 100%;
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-pink);
+            box-shadow: 
+                0 0 30px rgba(255, 0, 110, 0.6),
+                inset 0 0 30px rgba(255, 0, 110, 0.1);
+        }
+
+        .card-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--neon-cyan);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .content-card:hover .card-title {
+            color: var(--neon-pink);
+            text-shadow: 0 0 15px var(--neon-pink);
+            animation: glitch 0.3s infinite;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            color: var(--neon-green);
+            text-shadow: 0 0 5px var(--neon-green);
+        }
+
+        .tags {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: transparent;
+            color: var(--neon-purple);
+            padding: 0.25rem 0.75rem;
+            border: 1px solid var(--neon-purple);
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tag::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--neon-purple);
+            z-index: -1;
+            transition: left 0.3s;
+        }
+
+        .tag:hover::before {
+            left: 0;
+        }
+
+        .tag:hover {
+            color: var(--dark-bg);
+            box-shadow: 0 0 10px var(--neon-purple);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Technical Debt Documentation</h1>
+            <p class="subtitle">&lt;SYSTEM.OVERRIDE&gt; Managing debt in the digital underground &lt;/SYSTEM.OVERRIDE&gt;</p>
+        </header>
+
+        <div class="overview-section">
+            <h2 class="overview-title">// ARCHIVE.INIT</h2>
+            <div class="overview-content">
+                <p>ACCESS GRANTED. This neural repository serves as a knowledge nexus for understanding and managing technical debt in the cybernetic age. 
+                Navigate through curated data streams from industry netrunners, practical management protocols, and contemporary 
+                perspectives on how technical debt impacts modern software architecture in 2077.</p>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <a href="pages/ten-articles-on-tech-debt.html" class="content-card">
+                <h3 class="card-title">Ten Articles on Tech Debt</h3>
+                <p class="card-description">A foundational collection of 10 essential articles that explore various aspects of technical debt, from its origins to practical management approaches.</p>
+                <div class="card-meta">
+                    <span>TIMESTAMP: 2025.06.01</span>
+                    <div class="tags">
+                        <span class="tag">techdebt</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="pages/five-more-posts-on-tech-debt.html" class="content-card">
+                <h3 class="card-title">Five More Posts on Tech Debt</h3>
+                <p class="card-description">Additional perspectives and insights on technical debt, supplementing the main collection with more recent thinking and approaches.</p>
+                <div class="card-meta">
+                    <span>TIMESTAMP: 2025.06.05</span>
+                    <div class="tags">
+                        <span class="tag">techdebt</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="pages/tech-debt-in-2025.html" class="content-card">
+                <h3 class="card-title">Tech Debt in 2025</h3>
+                <p class="card-description">Contemporary perspectives on technical debt, including CTO viewpoints, the importance of maintenance work, and how AI is changing the landscape.</p>
+                <div class="card-meta">
+                    <span>TIMESTAMP: 2025.06.14</span>
+                    <div class="tags">
+                        <span class="tag">techdebt</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

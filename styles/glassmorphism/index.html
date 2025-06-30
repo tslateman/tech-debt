@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Debt Documentation</title>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="A curated collection of insights, strategies, and perspectives on understanding and managing technical debt in software development.">
+    <meta name="keywords" content="technical debt, software development, code quality, maintenance, refactoring, software engineering">
+    <meta name="author" content="Tommy Slater">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Technical Debt Documentation Hub">
+    <meta property="og:description" content="A curated collection of insights, strategies, and perspectives on understanding and managing technical debt in software development.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.com/tslateman/tech-debt">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Technical Debt Documentation Hub">
+    <meta name="twitter:description" content="A curated collection of insights, strategies, and perspectives on understanding and managing technical debt.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>📚</text></svg>">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --text-muted: rgba(255, 255, 255, 0.6);
+            
+            --blur-amount: 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            min-height: 100vh;
+            background: var(--gradient-bg);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        /* Animated background orbs */
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.7;
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        body::before {
+            width: 500px;
+            height: 500px;
+            background: #667eea;
+            top: -250px;
+            left: -250px;
+        }
+
+        body::after {
+            width: 600px;
+            height: 600px;
+            background: #f093fb;
+            bottom: -300px;
+            right: -300px;
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            33% {
+                transform: translate(100px, -100px) rotate(120deg);
+            }
+            66% {
+                transform: translate(-100px, 100px) rotate(240deg);
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur-amount));
+            -webkit-backdrop-filter: blur(var(--blur-amount));
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            transition: all 0.3s ease;
+        }
+
+        .overview-section {
+            padding: 2.5rem;
+            margin-bottom: 4rem;
+            animation: fadeIn 1s ease-out 0.2s both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .overview-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .overview-content {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .content-card {
+            padding: 2rem;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out both;
+        }
+
+        .content-card:nth-child(1) { animation-delay: 0.3s; }
+        .content-card:nth-child(2) { animation-delay: 0.4s; }
+        .content-card:nth-child(3) { animation-delay: 0.5s; }
+        .content-card:nth-child(4) { animation-delay: 0.6s; }
+
+        .content-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-accent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 40px 0 rgba(31, 38, 135, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .content-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .tags {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            color: var(--text-primary);
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .tag:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.05);
+        }
+
+        /* Floating elements for visual interest */
+        .floating-element {
+            position: fixed;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: var(--gradient-accent);
+            filter: blur(80px);
+            opacity: 0.3;
+            pointer-events: none;
+            animation: floatSlow 30s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            bottom: 20%;
+            right: 10%;
+            animation-delay: 15s;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            50% {
+                transform: translate(50px, -50px) scale(1.1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .overview-section {
+                padding: 2rem;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Loading animation */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.6;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating elements for ambiance -->
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    
+    <div class="container">
+        <header>
+            <h1>Technical Debt Documentation</h1>
+            <p class="subtitle">A curated collection of insights, strategies, and perspectives on managing technical debt</p>
+        </header>
+
+        <div class="overview-section glass-panel">
+            <h2 class="overview-title">About This Collection</h2>
+            <div class="overview-content">
+                <p>This repository serves as a knowledge base for understanding and managing technical debt. 
+                It includes curated articles from industry experts, practical management strategies, and contemporary 
+                perspectives on how technical debt impacts modern software development.</p>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <a href="pages/ten-articles-on-tech-debt.html" class="content-card glass-panel">
+                <h3 class="card-title">Ten Articles on Tech Debt</h3>
+                <p class="card-description">A foundational collection of 10 essential articles that explore various aspects of technical debt, from its origins to practical management approaches.</p>
+                <div class="card-meta">
+                    <span>Created: June 1, 2025</span>
+                    <div class="tags">
+                        <span class="tag">techdebt</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="pages/five-more-posts-on-tech-debt.html" class="content-card glass-panel">
+                <h3 class="card-title">Five More Posts on Tech Debt</h3>
+                <p class="card-description">Additional perspectives and insights on technical debt, supplementing the main collection with more recent thinking and approaches.</p>
+                <div class="card-meta">
+                    <span>Created: June 5, 2025</span>
+                    <div class="tags">
+                        <span class="tag">techdebt</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="pages/tech-debt-in-2025.html" class="content-card glass-panel">
+                <h3 class="card-title">Tech Debt in 2025</h3>
+                <p class="card-description">Contemporary perspectives on technical debt, including CTO viewpoints, the importance of maintenance work, and how AI is changing the landscape.</p>
+                <div class="card-meta">
+                    <span>Created: June 14, 2025</span>
+                    <div class="tags">
+                        <span class="tag">techdebt</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

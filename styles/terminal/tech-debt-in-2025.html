@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECH_DEBT_IN_2025.TXT</title>
+    <style>
+        @font-face {
+            font-family: 'DOS';
+            src: local('Courier New'), local('Courier'), local('monospace');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: default;
+        }
+
+        :root {
+            --green: #00ff00;
+            --amber: #ffb000;
+            --dark-green: #008800;
+            --cyan: #00ffff;
+            --bg: #000000;
+            --scanline: rgba(0, 255, 0, 0.02);
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--green);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            line-height: 1.4;
+            overflow-x: hidden;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+        }
+
+        /* CRT Monitor Effect */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                var(--scanline) 2px,
+                var(--scanline) 4px
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Screen flicker */
+        @keyframes flicker {
+            0% { opacity: 0.97; }
+            5% { opacity: 0.94; }
+            10% { opacity: 0.98; }
+            15% { opacity: 0.95; }
+            20% { opacity: 0.98; }
+            100% { opacity: 0.98; }
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+            pointer-events: none;
+            z-index: 2;
+            animation: flicker 0.15s infinite;
+        }
+
+        .terminal-container {
+            position: relative;
+            min-height: 100vh;
+            padding: 20px;
+            z-index: 0;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header-bar {
+            border: 2px solid var(--green);
+            padding: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .title {
+            color: var(--amber);
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .meta-info {
+            font-size: 12px;
+            color: var(--dark-green);
+            margin-top: 5px;
+        }
+
+        /* Navigation */
+        .nav-command {
+            margin-bottom: 20px;
+            color: var(--cyan);
+        }
+
+        .nav-command::before {
+            content: "C:\\TECHDEBT\\PAGES>";
+            color: var(--amber);
+        }
+
+        .back-link {
+            color: var(--cyan);
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            background: var(--cyan);
+            color: var(--bg);
+            text-shadow: none;
+        }
+
+        /* Content styling */
+        .content-block {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px dashed var(--dark-green);
+        }
+
+        h2 {
+            color: var(--amber);
+            font-size: 16px;
+            margin: 20px 0 10px 0;
+            text-transform: uppercase;
+        }
+
+        h2::before {
+            content: ">>> ";
+            color: var(--green);
+        }
+
+        p {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        a {
+            color: var(--cyan);
+            text-decoration: none;
+        }
+
+        a:hover {
+            background: var(--cyan);
+            color: var(--bg);
+            text-shadow: none;
+        }
+
+        blockquote {
+            border-left: 4px solid var(--dark-green);
+            padding-left: 20px;
+            margin: 15px 0 15px 20px;
+            color: var(--dark-green);
+        }
+
+        blockquote::before {
+            content: "QUOTE> ";
+            color: var(--amber);
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 40px;
+            list-style-type: none;
+        }
+
+        li {
+            margin: 5px 0;
+        }
+
+        ul li::before {
+            content: "• ";
+            color: var(--amber);
+            margin-left: -20px;
+            display: inline-block;
+            width: 20px;
+        }
+
+        ol {
+            counter-reset: item;
+        }
+
+        ol li {
+            counter-increment: item;
+        }
+
+        ol li::before {
+            content: counter(item) ". ";
+            color: var(--amber);
+            margin-left: -20px;
+            display: inline-block;
+            width: 20px;
+        }
+
+        strong {
+            color: var(--cyan);
+            font-weight: bold;
+        }
+
+        /* ASCII separator */
+        .separator {
+            text-align: center;
+            margin: 30px 0;
+            color: var(--dark-green);
+        }
+
+        /* Related section */
+        .related-section {
+            margin-top: 40px;
+            padding: 20px;
+            border: 2px solid var(--dark-green);
+        }
+
+        .related-title {
+            color: var(--amber);
+            margin-bottom: 15px;
+        }
+
+        .related-title::before {
+            content: ">> ";
+        }
+
+        .related-title::after {
+            content: " <<";
+        }
+
+        .related-link {
+            display: block;
+            color: var(--green);
+            text-decoration: none;
+            padding: 5px 0;
+            margin: 5px 0;
+        }
+
+        .related-link::before {
+            content: "> ";
+            color: var(--amber);
+        }
+
+        .related-link:hover {
+            background: var(--green);
+            color: var(--bg);
+            text-shadow: none;
+        }
+
+        /* Blinking cursor at end */
+        .end-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 16px;
+            background: var(--green);
+            animation: blink 1s infinite;
+            vertical-align: text-bottom;
+        }
+
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+
+        /* Status bar */
+        .status-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg);
+            border-top: 2px solid var(--green);
+            padding: 5px 20px;
+            font-size: 12px;
+            z-index: 10;
+        }
+
+        .status-bar span {
+            margin-right: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                font-size: 12px;
+            }
+            
+            .terminal-container {
+                padding: 10px;
+            }
+            
+            p, blockquote {
+                padding-left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal-container">
+        <div class="header-bar">
+            <h1 class="title">TECH DEBT IN 2025</h1>
+            <div class="meta-info">
+                CREATED: 2025-06-14 | MODIFIED: 2025-06-14 | SIZE: 28KB
+            </div>
+        </div>
+
+        <div class="nav-command">
+            <a href="index.html" class="back-link">CD ..</a>
+        </div>
+
+        <div class="content-block">
+            <div class="separator">════════════════════════════════════════════════════════</div>
+
+            <h2>CTO / LEADERSHIP PERSPECTIVE</h2>
+
+            <p><a href="https://ctomagazine.com/tackling-tech-debt-boosts-agility-data-engineering/" target="_blank">[LINK] How Tackling Tech Debt Boosts Agility in Data Engineering</a></p>
+            <p>Reframe working on tech debt as a business enabler. Change the company culture around it.</p>
+
+            <blockquote>
+                Technical debt is not a developer problem. It is a leadership challenge. Managing tech debt is not a matter of perfectionism. It is a question of capacity, resilience, and future readiness. And for today's CTOs and CIOs, it is a strategic concern.
+            </blockquote>
+
+            <p>Principles:</p>
+            <ol>
+                <li><strong>Create space for maintenance</strong> Allocate consistent time in sprint planning for infrastructure, testing, and cleanup.</li>
+                <li><strong>Build a shared language</strong> Help non-technical leaders understand tech debt in terms of business risk and velocity—not just code quality.</li>
+                <li><strong>Normalize stewardship</strong> Make infrastructure health a visible, measurable part of team performance—not an afterthought.</li>
+            </ol>
+
+            <p><a href="https://sciodev.com/blog/the-hidden-cost-of-technical-debt/" target="_blank">[LINK] The Hidden Cost of Technical Debt</a></p>
+            <p>A common issue due to incentives and nature of the problem.</p>
+
+            <blockquote>
+                Despite the risks, many CTOs underinvest in tech debt reduction. Why?
+            </blockquote>
+
+            <ul>
+                <li><strong>Misaligned incentives:</strong> Engineering is rewarded for shipping fast, not refactoring.</li>
+                <li><strong>Lack of visibility:</strong> Business leaders don't "see" the debt—until outages happen.</li>
+                <li><strong>Fear of disruption:</strong> Teams avoid touching fragile codebases, fearing ripple effects.</li>
+            </ul>
+
+            <p>Author claims nearshore can help:</p>
+            <ul>
+                <li>Nearshore teams in Mexico offer real-time collaboration</li>
+                <li>Developers are culturally aligned with U.S. work styles</li>
+                <li>Reduced time-to-onboard compared to offshore vendors</li>
+                <li>Higher retention and engagement on long-term projects</li>
+            </ul>
+
+            <div class="separator">════════════════════════════════════════════════════════</div>
+
+            <h2>THE IMPORTANCE OF MAINTENANCE</h2>
+
+            <p><a href="https://bigthink.com/business/the-end-of-extraction-and-the-rise-of-abundance/" target="_blank">[LINK] The end of extraction and the rise of abundance</a></p>
+            <p>The "Maintenance Premium" - tackling tech debt drives compounding value!</p>
+
+            <blockquote>
+                Paul Higgins wrote a brilliant piece recently called The Maintenance Premium, and it challenges one of the deepest assumptions in modern business: that value comes primarily from launching new things. What if that's wrong? What if real value — the kind that compounds over decades — comes not from disruption, but from thoughtful maintenance?
+            </blockquote>
+
+            <p>Applying a quote from Zen and the Art of Motorcycle Maintenance</p>
+
+            <blockquote>
+                Key quote: "Robert Pirsig, in his philosophical exploration Zen and the Art of Motorcycle Maintenance, revealed a deeper truth about maintenance that most business thinkers miss. Maintenance isn't static preservation but dynamic engagement. When you truly maintain a motorcycle, you're not just keeping it running. You're developing an intimate understanding of how it wants to run, constantly making micro-adjustments that improve its performance. The machine and the maintainer evolve together. This same principle, Pirsig argued, applies to any system we care for, from motorcycles to enterprises."
+            </blockquote>
+
+            <div class="separator">════════════════════════════════════════════════════════</div>
+
+            <h2>AI CONSIDERATION</h2>
+
+            <p><a href="https://adams.io/blog/f/the-ai-reckoning-why-leaders-must-tackle-tech-debt-now" target="_blank">[LINK] The AI Reckoning - Why Leaders Must Tackle Tech Debt Now</a></p>
+            <p>Why now?</p>
+
+            <blockquote>
+                In the AI era, tech debt doesn't just slow you down—it blocks your ability to compete.
+            </blockquote>
+
+            <p>Organizations with well-maintained, modular systems can launch AI initiatives within a matter of months. Teams drowning in tech debt spend years and still deliver far less. According to McKinsey, <a href="https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/tech-debt-reclaiming-tech-equity" target="_blank">companies should address tech debt before pursuing AI projects</a>, or AI's complexity will only compound their existing problems.</p>
+
+            <p>PAID Framework:</p>
+            <ul>
+                <li><strong>Prioritize:</strong> High business impact, reasonable effort—fix immediately.</li>
+                <li><strong>Address:</strong> High impact, high effort—make a plan and do it.</li>
+                <li><strong>Investigate:</strong> Low impact, reasonable effort—quick wins worth pursuing.</li>
+                <li><strong>Document:</strong> Low impact, high effort—defer and monitor (address later if it aligns with other work).</li>
+            </ul>
+
+            <p><a href="https://github.blog/ai-and-ml/github-copilot/how-the-github-billing-team-uses-the-coding-agent-in-github-copilot-to-continuously-burn-down-technical-debt/" target="_blank">[LINK] How the GitHub billing team uses the coding agent in GitHub Copilot to continuously burn down technical debt</a></p>
+            <p>AI can help and engineers still have to work.</p>
+
+            <blockquote>
+                The magic happens in the interaction between human judgment and AI execution. You define the problem, set the constraints, and validate the solution. The agent handles the tedious implementation details that would otherwise consume hours of your time. This partnership lets you operate at a higher level while still maintaining quality and control.
+            </blockquote>
+
+            <p>We still have a job! For now, at least.</p>
+
+            <div class="separator">════════════════════════════════════════════════════════</div>
+        </div>
+
+        <div class="related-section">
+            <h2 class="related-title">RELATED FILES</h2>
+            <a href="ten-articles-on-tech-debt.html" class="related-link">TEN-ARTICLES-ON-TECH-DEBT.TXT</a>
+            <a href="five-more-posts-on-tech-debt.html" class="related-link">FIVE-MORE-POSTS-ON-TECH-DEBT.TXT</a>
+        </div>
+
+        <div style="margin-top: 40px;">
+            <span>C:\TECHDEBT\PAGES></span><span class="end-cursor"></span>
+        </div>
+    </div>
+
+    <div class="status-bar">
+        <span>F1=HELP</span>
+        <span>F5=REFRESH</span>
+        <span>ESC=BACK</span>
+        <span>SECTIONS: 3</span>
+        <span>MEM: 640K</span>
+    </div>
+
+    <script>
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                window.location.href = 'index.html';
+            } else if (e.key === 'F1') {
+                e.preventDefault();
+                alert('TECH DEBT ARCHIVE SYSTEM v1.0\n\nKEYBOARD SHORTCUTS:\n- ESC: Return to index\n- F5: Refresh page\n- TAB: Navigate links\n\nThis document contains contemporary perspectives on technical debt in 2025.');
+            }
+        });
+
+        // Add subtle text glow animation to links on hover
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                link.style.textShadow = '0 0 10px currentColor';
+            });
+            link.addEventListener('mouseleave', () => {
+                link.style.textShadow = '';
+            });
+        });
+    </script>
+</body>
+</html>

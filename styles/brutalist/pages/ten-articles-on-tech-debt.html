@@ -1,0 +1,680 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TEN ARTICLES ON TECH DEBT</title>
+
+    <!-- Meta Tags -->
+    <meta
+      name="description"
+      content="A foundational collection of 10 essential articles exploring various aspects of technical debt, from its origins to practical management approaches."
+    />
+    <meta
+      name="keywords"
+      content="technical debt, software development, code quality, maintenance, refactoring, software engineering"
+    />
+    <meta name="author" content="Tommy Slater" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Ten Articles on Tech Debt" />
+    <meta
+      property="og:description"
+      content="A foundational collection of 10 essential articles exploring various aspects of technical debt, from its origins to practical management approaches."
+    />
+    <meta property="og:type" content="article" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>⚡</text></svg>"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: monospace, 'Courier New', system-ui;
+        line-height: 1.5;
+        color: #000;
+        background-color: #fff;
+        font-size: 16px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0;
+        padding: 0;
+      }
+
+      .nav-bar {
+        background: #000;
+        padding: 1rem 2rem;
+        border-bottom: 8px solid #000;
+      }
+
+      .back-link {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-size: 1rem;
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border: 3px solid #fff;
+        transition: all 0.1s ease;
+      }
+
+      .back-link:hover {
+        background: #fff;
+        color: #000;
+        transform: translate(-2px, -2px);
+        box-shadow: 4px 4px 0 #fff;
+      }
+
+      header {
+        background: #000;
+        color: #fff;
+        padding: 4rem 2rem 3rem 2rem;
+        margin-bottom: 0;
+        position: relative;
+        transform: skewY(-1deg);
+        transform-origin: top left;
+      }
+
+      header > * {
+        transform: skewY(1deg);
+      }
+
+      h1 {
+        font-size: clamp(2.5rem, 6vw, 5rem);
+        font-weight: 900;
+        line-height: 0.9;
+        text-transform: uppercase;
+        letter-spacing: -0.03em;
+        margin-bottom: 2rem;
+        word-break: break-word;
+      }
+
+      .meta-info {
+        display: flex;
+        gap: 2rem;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 700;
+      }
+
+      .content {
+        background: #fff;
+        border: 12px solid #000;
+        padding: 3rem;
+        margin: 2rem;
+        position: relative;
+        box-shadow: 20px 20px 0 #000;
+      }
+
+      h2 {
+        font-size: 2.5rem;
+        font-weight: 900;
+        margin: 3rem 0 1.5rem 0;
+        text-transform: uppercase;
+        letter-spacing: -0.02em;
+        line-height: 1;
+        background: #000;
+        color: #fff;
+        padding: 1rem;
+        margin-left: -1rem;
+        margin-right: -1rem;
+        position: relative;
+      }
+
+      h2:first-child {
+        margin-top: 0;
+      }
+
+      h3 {
+        font-size: 1.8rem;
+        font-weight: 900;
+        margin: 2rem 0 1rem 0;
+        text-transform: uppercase;
+        border-bottom: 8px solid #000;
+        padding-bottom: 0.5rem;
+      }
+
+      p {
+        margin-bottom: 1.5rem;
+        font-size: 1.1rem;
+        max-width: 800px;
+      }
+
+      a {
+        color: #000;
+        text-decoration: underline;
+        text-decoration-thickness: 3px;
+        text-underline-offset: 2px;
+        font-weight: 700;
+        transition: all 0.1s ease;
+      }
+
+      a:hover {
+        background: #000;
+        color: #fff;
+        text-decoration: none;
+        padding: 0 0.25rem;
+        margin: 0 -0.25rem;
+      }
+
+      blockquote {
+        border-left: 12px solid #000;
+        padding-left: 2rem;
+        margin: 2rem 0;
+        font-style: normal;
+        background: #f0f0f0;
+        padding: 2rem;
+        padding-left: 3rem;
+        position: relative;
+        transform: rotate(-0.5deg);
+      }
+
+      blockquote p {
+        font-size: 1.2rem;
+        font-weight: 500;
+      }
+
+      blockquote::before {
+        content: """;
+        position: absolute;
+        left: 1rem;
+        top: 1rem;
+        font-size: 4rem;
+        font-weight: 900;
+        line-height: 1;
+        opacity: 0.3;
+      }
+
+      code {
+        background-color: #000;
+        color: #fff;
+        padding: 0.25rem 0.5rem;
+        font-family: monospace;
+        font-size: 0.9em;
+        font-weight: 700;
+      }
+
+      .related-section {
+        margin-top: 4rem;
+        padding-top: 3rem;
+        border-top: 12px solid #000;
+      }
+
+      .related-section h2 {
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      .related-links {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .related-links a {
+        display: block;
+        padding: 1rem;
+        border: 4px solid #000;
+        font-size: 1.2rem;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        transition: all 0.1s ease;
+      }
+
+      .related-links a:hover {
+        background: #000;
+        color: #fff;
+        transform: translate(-4px, -4px);
+        box-shadow: 8px 8px 0 #000;
+        margin: 0;
+        padding: 1rem;
+      }
+
+      /* Brutalist decorative elements */
+      .decoration-strip {
+        height: 20px;
+        background: repeating-linear-gradient(
+          45deg,
+          #000,
+          #000 10px,
+          #fff 10px,
+          #fff 20px
+        );
+        margin: 3rem -2rem;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 0;
+        }
+
+        header {
+          padding: 3rem 1rem 2rem 1rem;
+          transform: none;
+        }
+
+        h1 {
+          font-size: 2.5rem;
+        }
+
+        h2 {
+          font-size: 1.8rem;
+        }
+
+        .content {
+          padding: 2rem 1.5rem;
+          margin: 1rem;
+          box-shadow: 10px 10px 0 #000;
+        }
+
+        blockquote {
+          transform: none;
+        }
+
+        .decoration-strip {
+          margin: 2rem -1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="nav-bar">
+        <a href="../index.html" class="back-link">← BACK TO INDEX</a>
+      </nav>
+
+      <header>
+        <h1>TEN ARTICLES<br>ON TECH DEBT</h1>
+        <div class="meta-info">
+          <span>CREATED: JUNE 1, 2025</span>
+          <span>MODIFIED: JUNE 14, 2025</span>
+        </div>
+      </header>
+
+      <div class="content">
+        <h2>"CLARIFYING TECHNICAL DEBT"</h2>
+        <p>
+          <a
+            href="https://davidedwards.io/blog/2024/12/29/clarifying-technical-debt"
+            target="_blank"
+            >https://davidedwards.io/blog/2024/12/29/clarifying-technical-debt</a
+          >
+        </p>
+        <p>When you say "tech debt" do you include quality issues?</p>
+        <blockquote>
+          <p>
+            clumping quality issues into the nebulous bucket of
+            <em>technical debt</em> is that organizations outside of software
+            engineering, product management included, are free to interpret as
+            they wish. It is not uncommon for people to equate technical debt
+            with
+            <em>"the engineers made a bunch of mistakes or bad decisions"</em>
+          </p>
+        </blockquote>
+        <p>
+          Were they necessary shortcuts, even mandated by non-engineers? Do we
+          need new language?
+        </p>
+        <blockquote>
+          <p>
+            I would strongly encourage software organizations to eliminate
+            <em>technical debt</em> from their vocabulary–particularly when it
+            comes to planning–in exchange for clearly articulated quality
+            improvements connected to business outcomes.
+          </p>
+        </blockquote>
+        <p>
+          Noble, idealistic concept. <em>Good luck.</em> My attempts at these
+          conversations have resulted in non-technical folks getting impatient,
+          eyes glazing over, and people walking away with the wrong
+          understanding and dubious conclusions.
+        </p>
+
+        <div class="decoration-strip"></div>
+
+        <h2>"STOP SAYING "TECHNICAL DEBT""</h2>
+        <p>
+          <a
+            href="https://stackoverflow.blog/2023/12/27/stop-saying-technical-debt/"
+            target="_blank"
+            >https://stackoverflow.blog/2023/12/27/stop-saying-technical-debt/</a
+          >
+        </p>
+        <p>Optimistic. Fine, let's go ahead and set the Platonic ideal.</p>
+        <blockquote>
+          <p>
+            How do we minimize maintenance load growth? With
+            <a
+              href="https://chelseatroy.com/2021/10/29/a-rubric-for-evaluating-team-members-contributions-to-a-maintainable-code-base/"
+              target="_blank"
+              >good code stewardship practices</a
+            >. We rarely reward, recognize, or teach code stewardship the way
+            that we do feature development skills. But code stewardship
+            skills—documenting systems, recovering context from code, and
+            designing for future changes—make the difference between a team that
+            hums along for a decade or more and a team that repeatedly mires
+            itself in declarations of code bankruptcy, rewrites, and despair.
+          </p>
+        </blockquote>
+        <p>If only. Surprise! It goes further.</p>
+        <blockquote>
+          <p>
+            The Holy Grail? <em>Negative</em> maintenance load growth: the kind
+            of growth that makes our code <em>more</em> maintainable over time
+            instead of less. The Grail requires even more of the team than a
+            healthy quotidian code stewardship routine. It requires us to look
+            at individual maintenance tasks, track their origins, and address
+            those problems at the source. These chores, backed by empirical
+            evidence, give us something concrete to discuss in meetings about
+            tech debt.
+          </p>
+        </blockquote>
+        <p>
+          What a dream. Maybe one day. I strive for this, but I fear the bar is
+          too high.
+        </p>
+
+        <h2>"DON'T ASK FOR PERMISSION TO DO YOUR JOB CORRECTLY"</h2>
+        <p>
+          <a
+            href="https://itnext.io/dont-ask-permission-to-do-your-job-correctly-avoiding-the-technical-debt-trap-51c87e3be822"
+            target="_blank"
+            >https://itnext.io/dont-ask-permission-to-do-your-job-correctly-avoiding-the-technical-debt-trap-51c87e3be822</a
+          >
+        </p>
+        <p>Say "quick and dirty" one more time. (Samuel L Jackson meme)</p>
+        <blockquote>
+          <p>
+            It is a vicious cycle where we build cruft on top of cruft and
+            sooner than later the quick aspect of "quick and dirty" disappears.
+            And that is when you find yourself asking permission to do your job
+            correctly.
+          </p>
+        </blockquote>
+        <p>
+          Another source noting distinction between debt and cruft. Debt is ok.
+          Cruft has gotta go.
+        </p>
+        <blockquote>
+          <p>
+            We can improve by first recognizing things for what they truly are:
+            technical debt or cruft. It is our job to highlight the differences
+            and do our best to not add to the latter.
+          </p>
+        </blockquote>
+        <p>
+          This one also nobly tries to bring management in, noting the shared
+          responsibility.
+        </p>
+        <blockquote>
+          <p>
+            If this is always approached as a "best effort" or "whenever we have
+            time", you can be sure that it won't happen in a way that truly
+            moves the needle.
+          </p>
+        </blockquote>
+
+        <h2>"DEVELOPER PHILOSOPHY"</h2>
+        <p>
+          <a href="https://qntm.org/devphilo" target="_blank"
+            >https://qntm.org/devphilo</a
+          >
+        </p>
+        <p>Beware compounding complexity.</p>
+        <blockquote>
+          <p>
+            Warning signs to watch for: compounding technical debt. Increasing
+            difficulty in making seemingly simple changes to code. Difficulty in
+            documenting/commenting code. Difficulty in onboarding new
+            developers. Dwindling numbers of people who know how particular
+            areas of the codebase actually work. Bugs nobody understands.
+          </p>
+        </blockquote>
+        <blockquote>
+          <p>
+            Compounding complexity must be fought at every turn.
+            <a
+              href="https://knowledge.csc.gov.sg/ethos-issue-21/how-to-build-good-software/#:~:text=good%20software%20involves-,alternating%20cycles%20of%20expanding%20and%20reducing%20complexity,-.%20As%20new%20features"
+              target="_blank"
+              >Alternate between phases of expansion (new features) and
+              consolidation</a
+            >.
+          </p>
+        </blockquote>
+        <p>
+          See also:
+          <a
+            href="https://chrlschn.dev/blog/2025/05/beware-the-complexity-merchants/"
+            target="_blank"
+            >Beware the complexity merchants</a
+          >
+        </p>
+
+        <div class="decoration-strip"></div>
+
+        <h2>"TECH DEBT METAPHOR MAXIMALISM"</h2>
+        <p>
+          <a href="https://apenwarr.ca/log/20230605" target="_blank"
+            >https://apenwarr.ca/log/20230605</a
+          >
+        </p>
+        <p>
+          Let's add more terminology: <strong>interest rate</strong>,
+          <strong>total debt</strong>, and <strong>tech assets</strong>.
+        </p>
+        <blockquote>
+          <p>
+            What's the interest rate on your technical debt? The ongoing extra
+            work you need to do, because of the debt. For example, maybe you
+            have to maintain two incompatible versions of your app while you
+            finish migrating. (If you're doing a gradual migration, that is;
+            most big-bang migrations fail.)
+          </p>
+        </blockquote>
+        <p>
+          But actually... is debt always bad? Look at the other side of the
+          coin.
+        </p>
+        <blockquote>
+          <p>
+            Tech debt is any code you have that you have to repeatedly touch as
+            you work on new or existing features. In the financial world, that
+            sounds like an asset, not a debt, right? The code that's reused most
+            often is your best code.
+          </p>
+        </blockquote>
+        <p>
+          This one is really philosophical, a good read. Debt is ok as long as
+          the interest rate is reasonable.
+        </p>
+        <blockquote>
+          <p>
+            if your interest-to-income ratio is 0.3:1, that sounds about right.
+            You're investing about 30% of your time into maintenance. I bet
+            that's about how much homeowners spend on maintenance. Anything more
+            than that is pretty sketchy.
+          </p>
+        </blockquote>
+
+        <h2>"THE HUMAN COST OF TECH DEBT"</h2>
+        <p>
+          <a
+            href="https://www.linkedin.com/pulse/human-cost-tech-debt-erik-dietrich"
+            target="_blank"
+            >https://www.linkedin.com/pulse/human-cost-tech-debt-erik-dietrich</a
+          >
+        </p>
+        <p>Hmm, I never considered the human cost of tech debt.</p>
+        <blockquote>
+          <p>
+            the longer I stick around, the more I look like an archaeologist
+            rather than a programmer. I can't deliver any new functionality
+            until I've investigated, understood, translated, made sense of, and
+            interpreted all of the legacy code in and around the new feature.
+          </p>
+        </blockquote>
+        <p>Makes sense. Eventually new features become impossible.</p>
+        <blockquote>
+          <p>
+            Developers working in high tech debt situations chronically
+            underestimate the complexity of feature requests, and miss deadlines.
+            Business stakeholders get understandably frustrated when what sounds
+            like a simple request winds up taking a team a month. Developers
+            work long hours and still wind up looking incompetent, and everyone
+            involved in the app ecosystem becomes miserable. People quit, and
+            many of those that remain do so only out of fear of a job search and
+            a resulting pay cut.
+          </p>
+        </blockquote>
+        <p>
+          The solution:
+          <strong>make tech debt payments a real part of the process.</strong>
+        </p>
+
+        <h2>"THE ULTIMATE ENGINEERING LEADER'S GUIDE TO TECHNICAL DEBT"</h2>
+        <p>
+          <a
+            href="https://leaddev.com/technical-debt-tech-strategy/ultimate-engineering-leaders-guide-technical-debt"
+            target="_blank"
+            >https://leaddev.com/technical-debt-tech-strategy/ultimate-engineering-leaders-guide-technical-debt</a
+          >
+        </p>
+        <p>A great reference for thinking of debt in categories and quadrants.</p>
+        <p>
+          <a
+            href="https://martinfowler.com/bliki/TechnicalDebtQuadrant.html"
+            target="_blank"
+            >Fowler's Technical Debt Quadrant</a
+          >:
+        </p>
+        <ul>
+          <li>Reckless & Deliberate: "We don't have time for design"</li>
+          <li>Prudent & Deliberate: "We must ship now and deal with consequences"</li>
+          <li>Reckless & Inadvertent: "What's layering?"</li>
+          <li>Prudent & Inadvertent: "Now we know how we should have done it"</li>
+        </ul>
+        <p>
+          Don't fall into the trap that all debt is bad. Prudent debt can be
+          acceptable.
+        </p>
+        <blockquote>
+          <p>
+            Aggressively pursuing zero tech debt is also problematic. This is
+            the pursuit of perfection at the expense of product success. Think
+            of that hackathon product that was scrappy and exciting at the
+            start. Six months later, it is a monument to over-engineering...
+          </p>
+        </blockquote>
+
+        <h2>"FUNCTIONAL DEBT VS. TECHNICAL DEBT"</h2>
+        <p>
+          <a
+            href="https://wasp-lang.dev/blog/2023/07/10/gajdukov-7-takeaways-on-technical-debt"
+            target="_blank"
+            >https://wasp-lang.dev/blog/2023/07/10/gajdukov-7-takeaways-on-technical-debt</a
+          >
+        </p>
+        <p>What is <strong>functional debt</strong>?</p>
+        <blockquote>
+          <p>
+            Product or UX-related debt is incurred when shortcuts are taken in
+            the product development process, such as skipping user research or
+            not fully understanding user needs.
+          </p>
+        </blockquote>
+        <p>
+          The post goes on to paraphrase
+          <a
+            href="https://www.productplan.com/glossary/technical-debt/"
+            target="_blank"
+            >ProductPlan's article on technical debt</a
+          >:
+        </p>
+        <blockquote>
+          <p>
+            Making a conscious decision to release a product that is faster but
+            has messier code and less functionality would be taking on technical
+            debt. Choosing to skip proper user testing to meet a launch date
+            would be functional debt.
+          </p>
+        </blockquote>
+        <p>Ah, makes sense to categorize it separately.</p>
+
+        <div class="decoration-strip"></div>
+
+        <h2>"HOW TO MEASURE TECHNICAL DEBT"</h2>
+        <p>
+          <a
+            href="https://unqork.com/resource-center/guides/how-to-measure-technical-debt-a-guide-for-it-stakeholders/"
+            target="_blank"
+            >https://unqork.com/resource-center/guides/how-to-measure-technical-debt-a-guide-for-it-stakeholders/</a
+          >
+        </p>
+        <p>
+          How do we put a number on it? From McKinsey's
+          <strong>Tech Debt Ratio</strong> to using Jira ticket tagging and
+          tracking effort over time.
+        </p>
+        <p>Measurement approaches include:</p>
+        <ul>
+          <li>
+            <strong>Interest Rate Approximation:</strong> (Maintenance Hours /
+            Total Development Hours) × (% Attributed to Technical Debt) × 100
+          </li>
+          <li>
+            <strong>Tracking Time Spent:</strong> Log hours specifically
+            addressing technical debt
+          </li>
+          <li>
+            <strong>Code Quality Metrics:</strong> Static analysis tools,
+            cyclomatic complexity, code coverage
+          </li>
+        </ul>
+
+        <h2>"MANAGING TECHNICAL DEBT IN A MICROSERVICE ARCHITECTURE"</h2>
+        <p>
+          <a href="https://www.infoq.com/articles/managing-technical-debt-microservices/" target="_blank"
+            >https://www.infoq.com/articles/managing-technical-debt-microservices/</a
+          >
+        </p>
+        <p>Microservices bring their own unique debt challenges:</p>
+        <blockquote>
+          <p>
+            In a microservice architecture, technical debt can accumulate not just
+            within individual services, but also in the interactions between
+            services, in the deployment infrastructure, and in the overall system
+            architecture.
+          </p>
+        </blockquote>
+        <p>
+          The article discusses strategies specific to microservices: service
+          boundaries, API versioning, distributed tracing, and the importance of
+          service ownership.
+        </p>
+
+        <div class="related-section">
+          <h2>RELATED CONTENT</h2>
+          <div class="related-links">
+            <a href="five-more-posts-on-tech-debt.html">FIVE MORE POSTS ON TECH DEBT</a>
+            <a href="tech-debt-in-2025.html">TECH DEBT IN 2025</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIVE_MORE_POSTS_ON_TECH_DEBT.TXT</title>
+    <style>
+        @font-face {
+            font-family: 'DOS';
+            src: local('Courier New'), local('Courier'), local('monospace');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: default;
+        }
+
+        :root {
+            --green: #00ff00;
+            --amber: #ffb000;
+            --dark-green: #008800;
+            --cyan: #00ffff;
+            --bg: #000000;
+            --scanline: rgba(0, 255, 0, 0.02);
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--green);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            line-height: 1.4;
+            overflow-x: hidden;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+        }
+
+        /* CRT Monitor Effect */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                var(--scanline) 2px,
+                var(--scanline) 4px
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Screen flicker */
+        @keyframes flicker {
+            0% { opacity: 0.97; }
+            5% { opacity: 0.94; }
+            10% { opacity: 0.98; }
+            15% { opacity: 0.95; }
+            20% { opacity: 0.98; }
+            100% { opacity: 0.98; }
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+            pointer-events: none;
+            z-index: 2;
+            animation: flicker 0.15s infinite;
+        }
+
+        .terminal-container {
+            position: relative;
+            min-height: 100vh;
+            padding: 20px;
+            z-index: 0;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header-bar {
+            border: 2px solid var(--green);
+            padding: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .title {
+            color: var(--amber);
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .meta-info {
+            font-size: 12px;
+            color: var(--dark-green);
+            margin-top: 5px;
+        }
+
+        /* Navigation */
+        .nav-command {
+            margin-bottom: 20px;
+            color: var(--cyan);
+        }
+
+        .nav-command::before {
+            content: "C:\\TECHDEBT\\PAGES>";
+            color: var(--amber);
+        }
+
+        .back-link {
+            color: var(--cyan);
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            background: var(--cyan);
+            color: var(--bg);
+            text-shadow: none;
+        }
+
+        /* Content styling */
+        .content-block {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px dashed var(--dark-green);
+        }
+
+        h2 {
+            color: var(--amber);
+            font-size: 16px;
+            margin: 20px 0 10px 0;
+            text-transform: uppercase;
+        }
+
+        h2::before {
+            content: ">>> ";
+            color: var(--green);
+        }
+
+        h3 {
+            color: var(--cyan);
+            font-size: 14px;
+            margin: 15px 0 10px 0;
+            text-transform: uppercase;
+        }
+
+        h3::before {
+            content: ">> ";
+            color: var(--dark-green);
+        }
+
+        p {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        a {
+            color: var(--cyan);
+            text-decoration: none;
+        }
+
+        a:hover {
+            background: var(--cyan);
+            color: var(--bg);
+            text-shadow: none;
+        }
+
+        blockquote {
+            border-left: 4px solid var(--dark-green);
+            padding-left: 20px;
+            margin: 15px 0 15px 20px;
+            color: var(--dark-green);
+        }
+
+        blockquote::before {
+            content: "QUOTE> ";
+            color: var(--amber);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 12px;
+        }
+
+        th, td {
+            border: 1px solid var(--dark-green);
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background: var(--dark-green);
+            color: var(--bg);
+            text-transform: uppercase;
+        }
+
+        tr:hover {
+            background: rgba(0, 255, 0, 0.1);
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 40px;
+        }
+
+        li {
+            margin: 5px 0;
+        }
+
+        /* ASCII separator */
+        .separator {
+            text-align: center;
+            margin: 30px 0;
+            color: var(--dark-green);
+        }
+
+        /* Related section */
+        .related-section {
+            margin-top: 40px;
+            padding: 20px;
+            border: 2px solid var(--dark-green);
+        }
+
+        .related-title {
+            color: var(--amber);
+            margin-bottom: 15px;
+        }
+
+        .related-title::before {
+            content: ">> ";
+        }
+
+        .related-title::after {
+            content: " <<";
+        }
+
+        .related-link {
+            display: block;
+            color: var(--green);
+            text-decoration: none;
+            padding: 5px 0;
+            margin: 5px 0;
+        }
+
+        .related-link::before {
+            content: "> ";
+            color: var(--amber);
+        }
+
+        .related-link:hover {
+            background: var(--green);
+            color: var(--bg);
+            text-shadow: none;
+        }
+
+        /* Blinking cursor at end */
+        .end-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 16px;
+            background: var(--green);
+            animation: blink 1s infinite;
+            vertical-align: text-bottom;
+        }
+
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+
+        /* Status bar */
+        .status-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg);
+            border-top: 2px solid var(--green);
+            padding: 5px 20px;
+            font-size: 12px;
+            z-index: 10;
+        }
+
+        .status-bar span {
+            margin-right: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                font-size: 12px;
+            }
+            
+            .terminal-container {
+                padding: 10px;
+            }
+            
+            p, blockquote {
+                padding-left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal-container">
+        <div class="header-bar">
+            <h1 class="title">FIVE_MORE_POSTS_ON_TECH_DEBT.TXT</h1>
+            <div class="meta-info">
+                CREATED: 2025-06-05 | MODIFIED: 2025-06-14 | SIZE: 18KB
+            </div>
+        </div>
+
+        <div class="nav-command">
+            <a href="index.html" class="back-link">CD ..</a>
+        </div>
+
+        <div class="content-block">
+            <div class="separator">════════════════════════════════════════════════════════</div>
+            
+            <p>My previous page on this <a href="ten-articles-on-tech-debt.html" style="color: var(--cyan);">TEN-ARTICLES-ON-TECH-DEBT.TXT</a> missed a few excellent sources.</p>
+
+            <div class="separator">════════════════════════════════════════════════════════</div>
+
+            <h2>TECHNICAL DEBT (INTRO GUIDE)</h2>
+            <a href="https://www.productplan.com/glossary/technical-debt/?hl=en-US" target="_blank" style="color: var(--cyan); display: block; margin: 10px 0; word-break: break-all; font-size: 12px;">
+                [LINK] https://www.productplan.com/glossary/technical-debt/?hl=en-US
+            </a>
+            <p>Good introductory article. Digestible for beginners.</p>
+            <blockquote>
+                If you want a simple answer: technical debt is neither good nor bad, it's debt.
+            </blockquote>
+            <p>Fair, I guess. Dangerous in the wrong hands, though.</p>
+            <blockquote>
+                Technical staff, he says, often are tasked with trying to explain technical debt to business staff, who may not immediately see the implications. "The main issue seems to be that, unlike financial debt, technical debt is much less visible, and so people have an easier time ignoring it," he suggests.
+            </blockquote>
+            <p>Bingo. Business staff love to borrow for their goals and have technical staff pay it off. Then they turn around and complain about technical staff taking longer to deliver. Things start to spiral from there with expanded padding in estimates and eroding quality as burned out engineers stop trying.</p>
+            
+            <p>My favorite part is the list from "Towards an Ontology of Terms on Technical Debt":</p>
+            <ul style="list-style-type: none; padding-left: 40px;">
+                <li>• Architecture Debt</li>
+                <li>• Build Debt</li>
+                <li>• Code Debt</li>
+                <li>• Defect Debt</li>
+                <li>• Design Debt</li>
+                <li>• Documentation Debt</li>
+                <li>• Infrastructure Debt</li>
+                <li>• People Debt</li>
+                <li>• Process Debt</li>
+                <li>• Requirement Debt</li>
+                <li>• Service Debt</li>
+                <li>• Test Automation Debt</li>
+                <li>• Test Debt</li>
+            </ul>
+
+            <div class="separator">════════════════════════════════════════════════════════</div>
+
+            <h2>TECH DEBT - BY MARTIN FOWLER</h2>
+            <a href="https://martinfowler.com/bliki/TechnicalDebt.html?hl=en-US" target="_blank" style="color: var(--cyan); display: block; margin: 10px 0; word-break: break-all; font-size: 12px;">
+                [LINK] https://martinfowler.com/bliki/TechnicalDebt.html?hl=en-US
+            </a>
+            <blockquote>
+                Cruft has a quick impact, slowing down the very new features that are needed quickly. Teams who do this end up maxing out all their credit cards, but still delivering later than they would have done had they put the effort into higher internal quality.
+            </blockquote>
+            <p>Preach! Also love the often cited TechnicalDebtQuadrant.</p>
+            <p>Martin is an Engineer's champion. He's clever with detail and cites good sources.</p>
+
+            <div class="separator">════════════════════════════════════════════════════════</div>
+
+            <h2>SIMILARITIES BETWEEN TECH DEBT AND 'MONEY' DEBT</h2>
+            <p>A delightful comparison in a table.</p>
+            <a href="https://marcgg.com/blog/2025/02/20/tech-debt/" target="_blank" style="color: var(--cyan); display: block; margin: 10px 0; word-break: break-all; font-size: 12px;">
+                [LINK] https://marcgg.com/blog/2025/02/20/tech-debt/
+            </a>
+            <blockquote>
+                Often people only see the "ship faster" part, but forget about the rest… just like they see how nice the new car will be while forgetting about the 8% interest.
+            </blockquote>
+            <p>This is a great blog. There's a cool post about Force Multipliers that talks a little about team composition, too.</p>
+
+            <div class="separator">════════════════════════════════════════════════════════</div>
+
+            <h2>TECHNICAL DEBT EXPLAINED (BY CODACY)</h2>
+            <p>A good comprehensive overview including explanation, analysis, and solutions.</p>
+            <a href="https://blog.codacy.com/technical-debt" target="_blank" style="color: var(--cyan); display: block; margin: 10px 0; word-break: break-all; font-size: 12px;">
+                [LINK] https://blog.codacy.com/technical-debt
+            </a>
+            <p>Generally good stuff. I might nitpick about its <code style="background: var(--dark-green); padding: 2px 4px;">get_user_data</code> example bordering on an unproductive part of Uncle Bob Clean Code theory that favors over-abstraction, too much indirection of logic, and ultimately makes code worse. That's a topic for another page.</p>
+
+            <div class="separator">════════════════════════════════════════════════════════</div>
+
+            <h2>IT'S NOT YOUR CODEBASE</h2>
+            <p>Sean Goedecke has some interesting takes. This one is counterintuitive, with a healthy dose of balance. A lot of online advice sells ideas about "high ownership" using words like "empower" or "accountability" so much that I'm not sure they mean what the authors think they mean. This post advocates boundaries and trust. I don't totally buy it. However, I also feel like he's got a point.</p>
+            <a href="https://www.seangoedecke.com/not-your-codebase/" target="_blank" style="color: var(--cyan); display: block; margin: 10px 0; word-break: break-all; font-size: 12px;">
+                [LINK] https://www.seangoedecke.com/not-your-codebase/
+            </a>
+            <p>He presents a steelman argument about Engineers resisting managers incentivized for tech debt...</p>
+            <blockquote>
+                Engineers should fight against this, because it's in their interest to not trash their own codebases, and it's in the broader company interest to maintain a healthier codebase long-term (even if individual managers disagree).
+            </blockquote>
+            <p>... then counters</p>
+            <blockquote>
+                This does sometimes happen. But it's a deeply cynical way of looking at your work. I've worked with managers and product managers who were only interested in short-term gain. But I've also worked with managers and product managers who genuinely wanted to do the right thing, and only pushed for short-term gain when there was actually a strong reason.
+            </blockquote>
+            <p>Paint me gray and call me cynical then! Perhaps I've been burned too many times. People play to their incentives and rules. I often see moral hazard and tragedy of the commons at play as bad code happens to good people, and then good people get blamed. Would trust and shared responsibility be better? Of course. Do humans reliably work like that? Show me more proof. The best part of the post is a reminder that the code and its debt ultimately belong to the company. We're just the help.</p>
+
+            <div class="separator">════════════════════════════════════════════════════════</div>
+        </div>
+
+        <div class="related-section">
+            <h2 class="related-title">RELATED FILES</h2>
+            <a href="ten-articles-on-tech-debt.html" class="related-link">TEN-ARTICLES-ON-TECH-DEBT.TXT</a>
+            <a href="five-more-posts-on-tech-debt.html" class="related-link">FIVE-MORE-POSTS-ON-TECH-DEBT.TXT</a>
+            <a href="tech-debt-in-2025.html" class="related-link">TECH-DEBT-IN-2025.TXT</a>
+        </div>
+
+        <div style="margin-top: 40px;">
+            <span>C:\TECHDEBT\PAGES></span><span class="end-cursor"></span>
+        </div>
+    </div>
+
+    <div class="status-bar">
+        <span>F1=HELP</span>
+        <span>F5=REFRESH</span>
+        <span>ESC=BACK</span>
+        <span>ARTICLES: 5/5</span>
+        <span>MEM: 640K</span>
+    </div>
+
+    <script>
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                window.location.href = 'index.html';
+            } else if (e.key === 'F1') {
+                e.preventDefault();
+                alert('TECH DEBT ARCHIVE SYSTEM v1.0\n\nKEYBOARD SHORTCUTS:\n- ESC: Return to index\n- F5: Refresh page\n- TAB: Navigate links\n\nThis document is part of the technical debt knowledge archive.');
+            }
+        });
+
+        // Add subtle text glow animation to links on hover
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                link.style.textShadow = '0 0 10px currentColor';
+            });
+            link.addEventListener('mouseleave', () => {
+                link.style.textShadow = '';
+            });
+        });
+    </script>
+</body>
+</html>

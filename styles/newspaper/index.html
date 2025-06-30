@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Technical Debt Tribune - Daily Edition</title>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="A curated collection of insights, strategies, and perspectives on understanding and managing technical debt in software development.">
+    <meta name="keywords" content="technical debt, software development, code quality, maintenance, refactoring, software engineering">
+    <meta name="author" content="Tommy Slater">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="The Technical Debt Tribune">
+    <meta property="og:description" content="A curated collection of insights, strategies, and perspectives on understanding and managing technical debt in software development.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.com/tslateman/tech-debt">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="The Technical Debt Tribune">
+    <meta name="twitter:description" content="A curated collection of insights, strategies, and perspectives on understanding and managing technical debt.">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background-color: #faf8f3;
+            margin: 0;
+            padding: 0;
+        }
+
+        .newspaper-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fffef9;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            min-height: 100vh;
+        }
+
+        /* Masthead */
+        .masthead {
+            border-bottom: 3px double #1a1a1a;
+            padding: 1rem 2rem;
+            text-align: center;
+            background-color: #fffef9;
+        }
+
+        .newspaper-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            margin-bottom: 0.25rem;
+            font-family: 'Times New Roman', Times, serif;
+            color: #0a0a0a;
+        }
+
+        .edition-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            margin: 0.5rem 0;
+            padding: 0.5rem 0;
+            border-top: 1px solid #1a1a1a;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .tagline {
+            font-style: italic;
+            font-size: 1rem;
+            color: #3a3a3a;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+        }
+
+        .lead-section {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .lead-headline {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .lead-content {
+            column-count: 2;
+            column-gap: 2rem;
+            column-rule: 1px solid #ccc;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        .lead-content::first-letter {
+            float: left;
+            font-size: 4rem;
+            line-height: 0.8;
+            margin: 0.1rem 0.1rem 0 0;
+            font-weight: 700;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        /* Article Grid */
+        .articles-section {
+            margin-top: 2rem;
+        }
+
+        .section-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 2rem 0 1rem 0;
+            padding: 0.5rem 0;
+            border-top: 3px solid #1a1a1a;
+            border-bottom: 1px solid #1a1a1a;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .article-card {
+            border: 1px solid #1a1a1a;
+            padding: 1.5rem;
+            background-color: #fffef9;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .article-card:hover {
+            box-shadow: 3px 3px 0 #1a1a1a;
+        }
+
+        .article-headline {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+            color: #1a1a1a;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .article-byline {
+            font-size: 0.875rem;
+            color: #5a5a5a;
+            margin-bottom: 0.5rem;
+            font-style: italic;
+        }
+
+        .article-summary {
+            text-align: justify;
+            hyphens: auto;
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: #5a5a5a;
+            border-top: 1px dotted #ccc;
+            padding-top: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .article-tags {
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .newspaper-footer {
+            margin-top: 3rem;
+            padding: 1rem 2rem;
+            border-top: 3px double #1a1a1a;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #5a5a5a;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .newspaper-title {
+                font-size: 2rem;
+            }
+
+            .lead-content {
+                column-count: 1;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .edition-info {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background-color: white;
+            }
+
+            .newspaper-container {
+                box-shadow: none;
+            }
+
+            .article-card:hover {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="newspaper-container">
+        <header class="masthead">
+            <h1 class="newspaper-title">The Technical Debt Tribune</h1>
+            <p class="tagline">"All the Code That's Fit to Refactor"</p>
+            <div class="edition-info">
+                <span>Vol. I, No. 1</span>
+                <span id="current-date">Sunday, June 30, 2025</span>
+                <span>Daily Edition</span>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="lead-section">
+                <h2 class="lead-headline">Essential Knowledge for Managing Technical Debt in Modern Software Development</h2>
+                <div class="lead-content">
+                    <p>This distinguished repository serves as a comprehensive knowledge base for understanding and managing technical debt in the ever-evolving landscape of software development. Within these pages, discerning readers will discover a carefully curated collection of articles from industry experts, practical management strategies, and contemporary perspectives on how technical debt impacts modern software development practices. The collection represents years of collective wisdom from leading technologists, architects, and engineering leaders who have grappled with the challenges of balancing rapid delivery with long-term maintainability. Each document has been selected for its unique contribution to our understanding of this critical aspect of software engineering.</p>
+                </div>
+            </section>
+
+            <section class="articles-section">
+                <h2 class="section-header">Featured Articles</h2>
+                
+                <div class="articles-grid">
+                    <a href="ten-articles-on-tech-debt.html" class="article-card">
+                        <h3 class="article-headline">Ten Essential Articles on Technical Debt</h3>
+                        <p class="article-byline">By The Editorial Board</p>
+                        <p class="article-summary">A foundational collection of ten essential articles that explore various aspects of technical debt, from its origins in Ward Cunningham's groundbreaking metaphor to practical management approaches employed by leading technology organizations. This comprehensive anthology provides readers with fundamental insights into the nature, measurement, and strategic management of technical debt.</p>
+                        <div class="article-meta">
+                            <span class="article-date">June 1, 2025</span>
+                            <span class="article-tags">TECHDEBT</span>
+                        </div>
+                    </a>
+
+                    <a href="five-more-posts-on-tech-debt.html" class="article-card">
+                        <h3 class="article-headline">Five Additional Perspectives on Technical Debt</h3>
+                        <p class="article-byline">By The Editorial Board</p>
+                        <p class="article-summary">Supplementing our primary collection, these five additional perspectives offer fresh insights and contemporary thinking on technical debt management. These articles delve into nuanced aspects of debt accumulation, innovative repayment strategies, and the evolving understanding of how technical debt impacts software teams and organizations in today's fast-paced development environment.</p>
+                        <div class="article-meta">
+                            <span class="article-date">June 5, 2025</span>
+                            <span class="article-tags">TECHDEBT</span>
+                        </div>
+                    </a>
+
+                    <a href="tech-debt-in-2025.html" class="article-card">
+                        <h3 class="article-headline">Technical Debt in the Year 2025: Contemporary Perspectives</h3>
+                        <p class="article-byline">By The Editorial Board</p>
+                        <p class="article-summary">An examination of current trends and future directions in technical debt management, featuring exclusive insights from Chief Technology Officers, the growing recognition of maintenance work's critical importance, and analysis of how artificial intelligence is fundamentally changing our approach to identifying, measuring, and addressing technical debt in modern software systems.</p>
+                        <div class="article-meta">
+                            <span class="article-date">June 14, 2025</span>
+                            <span class="article-tags">TECHDEBT</span>
+                        </div>
+                    </a>
+                </div>
+            </section>
+        </main>
+
+        <footer class="newspaper-footer">
+            <p>© 2025 The Technical Debt Tribune. A publication dedicated to software excellence.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Set current date
+        const currentDate = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date').textContent = currentDate.toLocaleDateString('en-US', options);
+    </script>
+</body>
+</html>

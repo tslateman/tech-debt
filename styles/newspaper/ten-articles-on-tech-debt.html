@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ten Essential Articles on Technical Debt - The Technical Debt Tribune</title>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="A foundational collection of 10 essential articles exploring various aspects of technical debt, from its origins to practical management approaches.">
+    <meta name="keywords" content="technical debt, software development, code quality, maintenance, refactoring, software engineering">
+    <meta name="author" content="Tommy Slater">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Ten Essential Articles on Technical Debt">
+    <meta property="og:description" content="A foundational collection of 10 essential articles exploring various aspects of technical debt, from its origins to practical management approaches.">
+    <meta property="og:type" content="article">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background-color: #faf8f3;
+            margin: 0;
+            padding: 0;
+        }
+
+        .newspaper-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fffef9;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .newspaper-header {
+            border-bottom: 3px double #1a1a1a;
+            padding: 1rem 2rem;
+            background-color: #fffef9;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .back-link {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-style: italic;
+            border-bottom: 1px dotted #1a1a1a;
+        }
+
+        .back-link:hover {
+            border-bottom-style: solid;
+        }
+
+        .date-stamp {
+            text-align: right;
+            font-style: italic;
+        }
+
+        .article-header {
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .main-headline {
+            font-size: 2.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .article-meta {
+            font-size: 0.875rem;
+            color: #3a3a3a;
+            font-style: italic;
+            padding: 0.5rem 0;
+            border-top: 1px solid #1a1a1a;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        /* Main Content */
+        .article-content {
+            padding: 2rem;
+        }
+
+        .article-section {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px dotted #1a1a1a;
+        }
+
+        .article-section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            font-family: 'Times New Roman', Times, serif;
+            border-bottom: 2px solid #1a1a1a;
+            padding-bottom: 0.25rem;
+        }
+
+        .article-link {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-style: italic;
+            font-size: 0.95rem;
+            display: block;
+            margin-bottom: 0.5rem;
+            word-break: break-all;
+        }
+
+        .article-link:hover {
+            text-decoration: underline;
+        }
+
+        .article-text {
+            text-align: justify;
+            hyphens: auto;
+            margin-bottom: 1rem;
+        }
+
+        .article-text:first-of-type::first-letter {
+            float: left;
+            font-size: 3.5rem;
+            line-height: 0.8;
+            margin: 0.1rem 0.2rem 0 0;
+            font-weight: 700;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        blockquote {
+            margin: 1rem 2rem;
+            padding: 1rem;
+            border-left: 3px solid #1a1a1a;
+            background-color: #f5f3ee;
+            font-style: italic;
+            position: relative;
+        }
+
+        blockquote::before {
+            content: """;
+            font-size: 3rem;
+            position: absolute;
+            left: -0.5rem;
+            top: -0.5rem;
+            color: #1a1a1a;
+            font-family: Georgia, serif;
+        }
+
+        blockquote p {
+            margin: 0;
+            text-align: justify;
+        }
+
+        /* Multi-column layout for longer sections */
+        .multi-column {
+            column-count: 2;
+            column-gap: 2rem;
+            column-rule: 1px solid #ccc;
+        }
+
+        .multi-column .section-title {
+            column-span: all;
+        }
+
+        /* Related section */
+        .related-section {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background-color: #f5f3ee;
+            border: 1px solid #1a1a1a;
+        }
+
+        .related-header {
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .related-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .related-link {
+            color: #1a1a1a;
+            text-decoration: none;
+            padding: 0.25rem 0;
+            border-bottom: 1px dotted #ccc;
+            font-size: 0.95rem;
+        }
+
+        .related-link:hover {
+            border-bottom-style: solid;
+        }
+
+        /* Footer */
+        .article-footer {
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            border-top: 3px double #1a1a1a;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #5a5a5a;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-headline {
+                font-size: 1.75rem;
+            }
+
+            .multi-column {
+                column-count: 1;
+            }
+
+            .article-content {
+                padding: 1rem;
+            }
+
+            blockquote {
+                margin: 1rem 0;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background-color: white;
+            }
+
+            .newspaper-container {
+                box-shadow: none;
+            }
+
+            .back-link {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="newspaper-container">
+        <header class="newspaper-header">
+            <div class="header-top">
+                <a href="index.html" class="back-link">← Return to Front Page</a>
+                <div class="date-stamp">
+                    <div>First Published: June 1, 2025</div>
+                    <div>Last Updated: June 14, 2025</div>
+                </div>
+            </div>
+            <div class="article-header">
+                <h1 class="main-headline">Ten Essential Articles on Technical Debt</h1>
+                <div class="article-meta">A Comprehensive Survey of Foundational Literature</div>
+            </div>
+        </header>
+
+        <main class="article-content">
+            <section class="article-section">
+                <h2 class="section-title">"Clarifying Technical Debt"</h2>
+                <a href="https://davidedwards.io/blog/2024/12/29/clarifying-technical-debt" target="_blank" class="article-link">
+                    davidedwards.io/blog/2024/12/29/clarifying-technical-debt
+                </a>
+                <p class="article-text">When discussing "technical debt," the critical question arises: do we include quality issues within this terminology? This fundamental inquiry challenges our understanding of what constitutes technical debt in modern software development.</p>
+                
+                <blockquote>
+                    <p>Clumping quality issues into the nebulous bucket of technical debt is that organizations outside of software engineering, product management included, are free to interpret as they wish. It is not uncommon for people to equate technical debt with "the engineers made a bunch of mistakes or bad decisions"</p>
+                </blockquote>
+                
+                <p class="article-text">The author questions whether these were necessary shortcuts, perhaps even mandated by non-engineers, and whether our industry requires new language to describe these phenomena.</p>
+                
+                <blockquote>
+                    <p>I would strongly encourage software organizations to eliminate technical debt from their vocabulary–particularly when it comes to planning–in exchange for clearly articulated quality improvements connected to business outcomes.</p>
+                </blockquote>
+                
+                <p class="article-text">While this represents a noble, idealistic concept, practical experience suggests significant challenges. Attempts at these conversations often result in non-technical stakeholders growing impatient, with eyes glazing over, ultimately walking away with incorrect understanding and dubious conclusions.</p>
+            </section>
+
+            <section class="article-section">
+                <h2 class="section-title">"Stop saying 'technical debt'"</h2>
+                <a href="https://stackoverflow.blog/2023/12/27/stop-saying-technical-debt/" target="_blank" class="article-link">
+                    stackoverflow.blog/2023/12/27/stop-saying-technical-debt/
+                </a>
+                <p class="article-text">This optimistic piece sets forth the Platonic ideal for how we should approach technical debt conversations. The author advocates for a fundamental shift in how we discuss and frame these issues within our organizations.</p>
+                
+                <blockquote>
+                    <p>How do we minimize maintenance load growth? With discipline, planning, and continuous attention to code quality throughout the development lifecycle.</p>
+                </blockquote>
+            </section>
+
+            <section class="article-section multi-column">
+                <h2 class="section-title">"The low-down on tech debt"</h2>
+                <a href="https://www.youtube.com/watch?v=lctjlKy0Gz4" target="_blank" class="article-link">
+                    youtube.com/watch?v=lctjlKy0Gz4
+                </a>
+                <p class="article-text">Former Google engineer and current MIT researcher presents an enlightening examination of technical debt's nature and impact on software systems.</p>
+            </section>
+
+            <section class="article-section">
+                <h2 class="section-title">"Technical debt and modernization"</h2>
+                <a href="https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/tech-debt-reclaiming-tech-equity" target="_blank" class="article-link">
+                    mckinsey.com/capabilities/mckinsey-digital/our-insights/tech-debt-reclaiming-tech-equity
+                </a>
+                <p class="article-text">McKinsey's comprehensive analysis reveals that CIOs estimate technical debt accounts for 20 to 40 percent of their entire technology estate's value. This staggering figure underscores the critical importance of addressing technical debt systematically.</p>
+                
+                <blockquote>
+                    <p>CIOs report that 10 to 20 percent of the technology budget dedicated to new products is diverted to resolving issues related to tech debt. More troubling still, CIOs estimated that tech debt amounts to 20 to 40 percent of the value of their entire technology estate before depreciation.</p>
+                </blockquote>
+            </section>
+
+            <section class="article-section">
+                <h2 class="section-title">"The Wrong Abstraction"</h2>
+                <a href="https://sandimetz.com/blog/2016/1/20/the-wrong-abstraction" target="_blank" class="article-link">
+                    sandimetz.com/blog/2016/1/20/the-wrong-abstraction
+                </a>
+                <p class="article-text">Sandi Metz illuminates how duplication is often preferable to the wrong abstraction, challenging conventional wisdom about code reuse and DRY principles.</p>
+                
+                <blockquote>
+                    <p>Prefer duplication over the wrong abstraction.</p>
+                </blockquote>
+            </section>
+
+            <section class="article-section multi-column">
+                <h2 class="section-title">"The Many Faces of Tech Debt"</h2>
+                <a href="https://www.agileallianceorg/the-many-faces-of-tech-debt/" target="_blank" class="article-link">
+                    agileallianceorg/the-many-faces-of-tech-debt/
+                </a>
+                <p class="article-text">The Agile Alliance presents a nuanced exploration of technical debt's various manifestations, demonstrating that this phenomenon extends far beyond simple code quality issues. The analysis reveals how technical debt can appear in architecture, testing, documentation, and process decisions.</p>
+            </section>
+
+            <section class="article-section">
+                <h2 class="section-title">"Technical Debt: What You Need to Know"</h2>
+                <a href="https://martinfowler.com/bliki/TechnicalDebt.html" target="_blank" class="article-link">
+                    martinfowler.com/bliki/TechnicalDebt.html
+                </a>
+                <p class="article-text">Martin Fowler's seminal work on technical debt provides essential context for understanding this metaphor's power and limitations. His analysis distinguishes between prudent and reckless debt, as well as deliberate and inadvertent debt.</p>
+            </section>
+
+            <section class="article-section">
+                <h2 class="section-title">"The Carrying Cost of Code"</h2>
+                <a href="https://blog.codinghorror.com/the-carrying-cost-of-code/" target="_blank" class="article-link">
+                    blog.codinghorror.com/the-carrying-cost-of-code/
+                </a>
+                <p class="article-text">Jeff Atwood explores the ongoing burden that code represents to organizations, arguing that the best code is often no code at all. His provocative stance challenges developers to consider the long-term implications of every line they write.</p>
+            </section>
+
+            <section class="article-section">
+                <h2 class="section-title">"Ward Explains Debt Metaphor"</h2>
+                <a href="http://wiki.c2.com/?WardExplainsDebtMetaphor" target="_blank" class="article-link">
+                    wiki.c2.com/?WardExplainsDebtMetaphor
+                </a>
+                <p class="article-text">The originator of the technical debt metaphor, Ward Cunningham, clarifies his original intent and addresses common misunderstandings that have emerged over the decades since he first coined the term.</p>
+            </section>
+
+            <section class="article-section">
+                <h2 class="section-title">"Is High Quality Software Worth the Cost?"</h2>
+                <a href="https://martinfowler.com/articles/is-quality-worth-cost.html" target="_blank" class="article-link">
+                    martinfowler.com/articles/is-quality-worth-cost.html
+                </a>
+                <p class="article-text">Martin Fowler challenges the conventional trade-off between quality and speed, arguing that high-quality software actually reduces costs over time. His economic analysis provides compelling evidence for investing in code quality from the outset.</p>
+            </section>
+
+            <div class="related-section">
+                <h3 class="related-header">Related Articles</h3>
+                <div class="related-links">
+                    <a href="five-more-posts-on-tech-debt.html" class="related-link">Five More Posts on Tech Debt →</a>
+                    <a href="tech-debt-in-2025.html" class="related-link">Tech Debt in 2025 →</a>
+                </div>
+            </div>
+        </main>
+
+        <footer class="article-footer">
+            <p>© 2025 The Technical Debt Tribune. All articles referenced remain the property of their original authors.</p>
+        </footer>
+    </div>
+</body>
+</html>

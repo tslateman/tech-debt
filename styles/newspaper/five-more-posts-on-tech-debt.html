@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Five Additional Perspectives on Technical Debt - The Technical Debt Tribune</title>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="Additional perspectives and insights on technical debt, supplementing the main collection with more recent thinking and approaches.">
+    <meta name="keywords" content="technical debt, software development, code quality, maintenance, refactoring, software engineering">
+    <meta name="author" content="Tommy Slater">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Five Additional Perspectives on Technical Debt">
+    <meta property="og:description" content="Additional perspectives and insights on technical debt, supplementing the main collection with more recent thinking and approaches.">
+    <meta property="og:type" content="article">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background-color: #faf8f3;
+            margin: 0;
+            padding: 0;
+        }
+
+        .newspaper-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fffef9;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .newspaper-header {
+            border-bottom: 3px double #1a1a1a;
+            padding: 1rem 2rem;
+            background-color: #fffef9;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .back-link {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-style: italic;
+            border-bottom: 1px dotted #1a1a1a;
+        }
+
+        .back-link:hover {
+            border-bottom-style: solid;
+        }
+
+        .date-stamp {
+            text-align: right;
+            font-style: italic;
+        }
+
+        .article-header {
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .main-headline {
+            font-size: 2.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .article-meta {
+            font-size: 0.875rem;
+            color: #3a3a3a;
+            font-style: italic;
+            padding: 0.5rem 0;
+            border-top: 1px solid #1a1a1a;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        /* Main Content */
+        .article-content {
+            padding: 2rem;
+        }
+
+        .article-section {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px dotted #1a1a1a;
+        }
+
+        .article-section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            font-family: 'Times New Roman', Times, serif;
+            border-bottom: 2px solid #1a1a1a;
+            padding-bottom: 0.25rem;
+        }
+
+        .article-link {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-style: italic;
+            font-size: 0.95rem;
+            display: block;
+            margin-bottom: 0.5rem;
+            word-break: break-all;
+        }
+
+        .article-link:hover {
+            text-decoration: underline;
+        }
+
+        .article-text {
+            text-align: justify;
+            hyphens: auto;
+            margin-bottom: 1rem;
+        }
+
+        .article-text:first-of-type::first-letter {
+            float: left;
+            font-size: 3.5rem;
+            line-height: 0.8;
+            margin: 0.1rem 0.2rem 0 0;
+            font-weight: 700;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        blockquote {
+            margin: 1rem 2rem;
+            padding: 1rem;
+            border-left: 3px solid #1a1a1a;
+            background-color: #f5f3ee;
+            font-style: italic;
+            position: relative;
+        }
+
+        blockquote::before {
+            content: """;
+            font-size: 3rem;
+            position: absolute;
+            left: -0.5rem;
+            top: -0.5rem;
+            color: #1a1a1a;
+            font-family: Georgia, serif;
+        }
+
+        blockquote p {
+            margin: 0;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+            padding-left: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            text-align: justify;
+        }
+
+        /* Multi-column layout for longer sections */
+        .multi-column {
+            column-count: 2;
+            column-gap: 2rem;
+            column-rule: 1px solid #ccc;
+        }
+
+        .multi-column .section-title {
+            column-span: all;
+        }
+
+        /* Related section */
+        .related-section {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background-color: #f5f3ee;
+            border: 1px solid #1a1a1a;
+        }
+
+        .related-header {
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .related-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .related-link {
+            color: #1a1a1a;
+            text-decoration: none;
+            padding: 0.25rem 0;
+            border-bottom: 1px dotted #ccc;
+            font-size: 0.95rem;
+        }
+
+        .related-link:hover {
+            border-bottom-style: solid;
+        }
+
+        /* Footer */
+        .article-footer {
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            border-top: 3px double #1a1a1a;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #5a5a5a;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-headline {
+                font-size: 1.75rem;
+            }
+
+            .multi-column {
+                column-count: 1;
+            }
+
+            .article-content {
+                padding: 1rem;
+            }
+
+            blockquote {
+                margin: 1rem 0;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background-color: white;
+            }
+
+            .newspaper-container {
+                box-shadow: none;
+            }
+
+            .back-link {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="newspaper-container">
+        <header class="newspaper-header">
+            <div class="header-top">
+                <a href="index.html" class="back-link">← Return to Front Page</a>
+                <div class="date-stamp">
+                    <div>First Published: June 5, 2025</div>
+                    <div>Last Updated: June 5, 2025</div>
+                </div>
+            </div>
+            <div class="article-header">
+                <h1 class="main-headline">Five Additional Perspectives on Technical Debt</h1>
+                <div class="article-meta">Supplementary Readings for the Discerning Technologist</div>
+            </div>
+        </header>
+
+        <main class="article-content">
+            <section class="article-section">
+                <h2 class="section-title">"Technical Debt is Killing Us"</h2>
+                <a href="https://renegadeotter.com/2024/10/20/technical-debt-is-killing-us.html" target="_blank" class="article-link">
+                    renegadeotter.com/2024/10/20/technical-debt-is-killing-us.html
+                </a>
+                <p class="article-text">A stark examination of how technical debt actively undermines organizational progress and developer morale. The author presents a compelling case that the accumulation of technical debt has reached crisis proportions in many organizations, leading to systemic failures and unsustainable development practices.</p>
+                
+                <blockquote>
+                    <p>Technical debt isn't just slowing us down—it's creating an existential threat to our ability to deliver value. Every day we delay addressing it, the compound interest grows, and the eventual reckoning becomes more catastrophic.</p>
+                </blockquote>
+                
+                <p class="article-text">The analysis reveals how technical debt creates a vicious cycle: as systems become harder to modify, teams take more shortcuts, which creates more debt, further degrading the system's maintainability.</p>
+            </section>
+
+            <section class="article-section multi-column">
+                <h2 class="section-title">"How to Identify Tech Debt on a New Team"</h2>
+                <a href="https://blog.danielnachun.com/posts/identifty-tech-debt/" target="_blank" class="article-link">
+                    blog.danielnachun.com/posts/identifty-tech-debt/
+                </a>
+                <p class="article-text">This practical guide offers strategies for quickly assessing technical debt when joining a new team or project. The author provides a systematic approach to uncovering hidden debt through code analysis, team interviews, and system observation.</p>
+                
+                <p class="article-text">Key indicators to watch for include:</p>
+                <ul>
+                    <li>Deployment frequency and failure rates</li>
+                    <li>Time required for simple changes</li>
+                    <li>Developer reluctance to modify certain areas</li>
+                    <li>Proliferation of workarounds and patches</li>
+                    <li>Documentation gaps and tribal knowledge</li>
+                </ul>
+            </section>
+
+            <section class="article-section">
+                <h2 class="section-title">"Technical Decision Records: A Tool for Avoiding Technical Debt"</h2>
+                <a href="https://thinkinglabs.io/articles/2024/12/15/technical-decision-records-a-tool-for-avoiding-technical-debt.html" target="_blank" class="article-link">
+                    thinkinglabs.io/articles/2024/12/15/technical-decision-records-a-tool-for-avoiding-technical-debt.html
+                </a>
+                <p class="article-text">An exploration of how Technical Decision Records (TDRs) can prevent the accumulation of technical debt by documenting the context, constraints, and reasoning behind architectural decisions. This proactive approach helps teams understand why certain choices were made and when they might need revisiting.</p>
+                
+                <blockquote>
+                    <p>Without understanding why decisions were made, teams are doomed to either perpetuate suboptimal patterns or waste time relitigating settled issues. TDRs provide the institutional memory that prevents both pitfalls.</p>
+                </blockquote>
+                
+                <p class="article-text">The author demonstrates how TDRs create a feedback loop for continuous improvement, allowing teams to learn from past decisions and make more informed choices in the future.</p>
+            </section>
+
+            <section class="article-section">
+                <h2 class="section-title">"Measuring Technical Debt"</h2>
+                <a href="https://www.infoq.com/articles/measuring-technical-debt/" target="_blank" class="article-link">
+                    infoq.com/articles/measuring-technical-debt/
+                </a>
+                <p class="article-text">This comprehensive analysis tackles the challenging problem of quantifying technical debt. The authors present various metrics and measurement frameworks that can help organizations understand the true cost of their technical debt and prioritize remediation efforts.</p>
+                
+                <p class="article-text">Proposed measurement approaches include:</p>
+                <ul>
+                    <li>Code complexity metrics and trend analysis</li>
+                    <li>Defect density and production incident rates</li>
+                    <li>Development velocity degradation over time</li>
+                    <li>Cost of delay for feature implementation</li>
+                    <li>Team satisfaction and retention metrics</li>
+                </ul>
+            </section>
+
+            <section class="article-section">
+                <h2 class="section-title">"The Technical Debt Trap"</h2>
+                <a href="https://www.youtube.com/watch?v=pqeJFYwnkjE" target="_blank" class="article-link">
+                    youtube.com/watch?v=pqeJFYwnkjE
+                </a>
+                <p class="article-text">In this illuminating presentation, the speaker explores how organizations fall into the technical debt trap and strategies for escape. The talk emphasizes that technical debt is not merely a technical problem but an organizational and cultural challenge requiring systemic solutions.</p>
+                
+                <blockquote>
+                    <p>The trap isn't the debt itself—it's the organizational blindness to its true cost and the cultural acceptance of 'temporary' solutions that become permanent fixtures.</p>
+                </blockquote>
+            </section>
+
+            <div class="related-section">
+                <h3 class="related-header">Related Articles</h3>
+                <div class="related-links">
+                    <a href="ten-articles-on-tech-debt.html" class="related-link">Ten Articles on Tech Debt →</a>
+                    <a href="tech-debt-in-2025.html" class="related-link">Tech Debt in 2025 →</a>
+                </div>
+            </div>
+        </main>
+
+        <footer class="article-footer">
+            <p>© 2025 The Technical Debt Tribune. All articles referenced remain the property of their original authors.</p>
+        </footer>
+    </div>
+</body>
+</html>

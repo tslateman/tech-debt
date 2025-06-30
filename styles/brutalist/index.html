@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECHNICAL DEBT DOCUMENTATION</title>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="A curated collection of insights, strategies, and perspectives on understanding and managing technical debt in software development.">
+    <meta name="keywords" content="technical debt, software development, code quality, maintenance, refactoring, software engineering">
+    <meta name="author" content="Tommy Slater">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Technical Debt Documentation Hub">
+    <meta property="og:description" content="A curated collection of insights, strategies, and perspectives on understanding and managing technical debt in software development.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.com/tslateman/tech-debt">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Technical Debt Documentation Hub">
+    <meta name="twitter:description" content="A curated collection of insights, strategies, and perspectives on understanding and managing technical debt.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>⚡</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: monospace, 'Courier New', system-ui;
+            line-height: 1.4;
+            color: #000;
+            background-color: #fff;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #000;
+            color: #fff;
+            padding: 3rem 2rem 2rem 2rem;
+            border-bottom: 20px solid #000;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: repeating-linear-gradient(
+                90deg,
+                #000,
+                #000 10px,
+                #fff 10px,
+                #fff 20px
+            );
+        }
+
+        h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            line-height: 0.9;
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+            margin-bottom: 1rem;
+            word-break: break-word;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: #fff;
+            color: #000;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            margin-top: 1rem;
+            border: 5px solid #000;
+            box-shadow: 10px 10px 0 #000;
+        }
+
+        .overview-section {
+            background: #000;
+            color: #fff;
+            padding: 3rem 2rem;
+            margin: 0 2rem 3rem 2rem;
+            border: 10px solid #000;
+            position: relative;
+            transform: rotate(-1deg);
+        }
+
+        .overview-section::before {
+            content: "";
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: #fff;
+            z-index: -1;
+        }
+
+        .overview-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .overview-content {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            max-width: 900px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 0;
+            margin: 0 2rem 3rem 2rem;
+        }
+
+        .content-card {
+            background: #fff;
+            border: 8px solid #000;
+            padding: 2rem;
+            text-decoration: none;
+            color: #000;
+            display: block;
+            position: relative;
+            transition: all 0.1s ease;
+            margin: -4px;
+        }
+
+        .content-card:nth-child(odd) {
+            transform: rotate(0.5deg);
+        }
+
+        .content-card:nth-child(even) {
+            transform: rotate(-0.5deg);
+        }
+
+        .content-card:hover {
+            background: #000;
+            color: #fff;
+            transform: rotate(0deg) scale(1.02);
+            z-index: 10;
+            box-shadow: 15px 15px 0 #000;
+        }
+
+        .content-card:hover .card-title {
+            color: #fff;
+        }
+
+        .content-card:hover .tag {
+            background: #fff;
+            color: #000;
+        }
+
+        .card-title {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            line-height: 1;
+        }
+
+        .card-description {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-top: 4px solid #000;
+            padding-top: 1rem;
+        }
+
+        .content-card:hover .card-meta {
+            border-color: #fff;
+        }
+
+        .tags {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: #000;
+            color: #fff;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: 2px solid #000;
+        }
+
+        /* Brutalist decoration elements */
+        .decoration-block {
+            position: fixed;
+            background: #000;
+            pointer-events: none;
+        }
+
+        .decoration-block-1 {
+            top: 20%;
+            right: -50px;
+            width: 100px;
+            height: 200px;
+            transform: rotate(15deg);
+        }
+
+        .decoration-block-2 {
+            bottom: 10%;
+            left: -30px;
+            width: 80px;
+            height: 300px;
+            transform: rotate(-10deg);
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 2rem 1rem;
+            }
+
+            h1 {
+                font-size: 3rem;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                margin: 0 1rem 2rem 1rem;
+            }
+
+            .overview-section {
+                margin: 0 1rem 2rem 1rem;
+                transform: none;
+            }
+
+            .content-card {
+                transform: none !important;
+            }
+
+            .decoration-block {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>TECHNICAL<br>DEBT<br>DOCUMENTATION</h1>
+            <p class="subtitle">CURATED INSIGHTS ON MANAGING TECHNICAL DEBT</p>
+        </header>
+
+        <div class="overview-section">
+            <h2 class="overview-title">ABOUT THIS COLLECTION</h2>
+            <div class="overview-content">
+                <p>This repository serves as a knowledge base for understanding and managing technical debt. 
+                It includes curated articles from industry experts, practical management strategies, and contemporary 
+                perspectives on how technical debt impacts modern software development.</p>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <a href="pages/ten-articles-on-tech-debt.html" class="content-card">
+                <h3 class="card-title">TEN ARTICLES<br>ON TECH DEBT</h3>
+                <p class="card-description">A foundational collection of 10 essential articles that explore various aspects of technical debt, from its origins to practical management approaches.</p>
+                <div class="card-meta">
+                    <span>CREATED: JUNE 1, 2025</span>
+                    <div class="tags">
+                        <span class="tag">TECHDEBT</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="pages/five-more-posts-on-tech-debt.html" class="content-card">
+                <h3 class="card-title">FIVE MORE POSTS<br>ON TECH DEBT</h3>
+                <p class="card-description">Additional perspectives and insights on technical debt, supplementing the main collection with more recent thinking and approaches.</p>
+                <div class="card-meta">
+                    <span>CREATED: JUNE 5, 2025</span>
+                    <div class="tags">
+                        <span class="tag">TECHDEBT</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="pages/tech-debt-in-2025.html" class="content-card">
+                <h3 class="card-title">TECH DEBT<br>IN 2025</h3>
+                <p class="card-description">Contemporary perspectives on technical debt, including CTO viewpoints, the importance of maintenance work, and how AI is changing the landscape.</p>
+                <div class="card-meta">
+                    <span>CREATED: JUNE 14, 2025</span>
+                    <div class="tags">
+                        <span class="tag">TECHDEBT</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Decoration elements -->
+    <div class="decoration-block decoration-block-1"></div>
+    <div class="decoration-block decoration-block-2"></div>
+</body>
+</html>

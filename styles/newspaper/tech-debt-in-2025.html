@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Debt in the Year 2025 - The Technical Debt Tribune</title>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="Contemporary perspectives on technical debt, including CTO viewpoints, the importance of maintenance work, and how AI is changing the landscape.">
+    <meta name="keywords" content="technical debt, software development, AI, maintenance, CTO perspectives, software engineering">
+    <meta name="author" content="Tommy Slater">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Technical Debt in the Year 2025">
+    <meta property="og:description" content="Contemporary perspectives on technical debt, including CTO viewpoints, the importance of maintenance work, and how AI is changing the landscape.">
+    <meta property="og:type" content="article">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background-color: #faf8f3;
+            margin: 0;
+            padding: 0;
+        }
+
+        .newspaper-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fffef9;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .newspaper-header {
+            border-bottom: 3px double #1a1a1a;
+            padding: 1rem 2rem;
+            background-color: #fffef9;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .back-link {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-style: italic;
+            border-bottom: 1px dotted #1a1a1a;
+        }
+
+        .back-link:hover {
+            border-bottom-style: solid;
+        }
+
+        .date-stamp {
+            text-align: right;
+            font-style: italic;
+        }
+
+        .article-header {
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .main-headline {
+            font-size: 2.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .article-meta {
+            font-size: 0.875rem;
+            color: #3a3a3a;
+            font-style: italic;
+            padding: 0.5rem 0;
+            border-top: 1px solid #1a1a1a;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        /* Main Content */
+        .article-content {
+            padding: 2rem;
+        }
+
+        .article-section {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px dotted #1a1a1a;
+        }
+
+        .article-section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            font-family: 'Times New Roman', Times, serif;
+            text-align: center;
+            padding: 0.5rem 0;
+            border-top: 2px solid #1a1a1a;
+            border-bottom: 2px solid #1a1a1a;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .subsection-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 1.5rem 0 0.75rem 0;
+            border-bottom: 1px solid #1a1a1a;
+            padding-bottom: 0.25rem;
+        }
+
+        .article-link {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-style: italic;
+            font-size: 0.95rem;
+            display: block;
+            margin-bottom: 0.5rem;
+            word-break: break-all;
+        }
+
+        .article-link:hover {
+            text-decoration: underline;
+        }
+
+        .article-text {
+            text-align: justify;
+            hyphens: auto;
+            margin-bottom: 1rem;
+        }
+
+        .article-text:first-of-type::first-letter {
+            float: left;
+            font-size: 3.5rem;
+            line-height: 0.8;
+            margin: 0.1rem 0.2rem 0 0;
+            font-weight: 700;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        blockquote {
+            margin: 1rem 2rem;
+            padding: 1rem;
+            border-left: 3px solid #1a1a1a;
+            background-color: #f5f3ee;
+            font-style: italic;
+            position: relative;
+        }
+
+        blockquote::before {
+            content: """;
+            font-size: 3rem;
+            position: absolute;
+            left: -0.5rem;
+            top: -0.5rem;
+            color: #1a1a1a;
+            font-family: Georgia, serif;
+        }
+
+        blockquote p {
+            margin: 0;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+            padding-left: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            text-align: justify;
+        }
+
+        strong {
+            font-weight: 700;
+            color: #0a0a0a;
+        }
+
+        /* Multi-column layout */
+        .multi-column {
+            column-count: 2;
+            column-gap: 2rem;
+            column-rule: 1px solid #ccc;
+        }
+
+        .multi-column .subsection-title {
+            column-span: all;
+        }
+
+        .principles-list {
+            counter-reset: principle-counter;
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .principles-list li {
+            counter-increment: principle-counter;
+            position: relative;
+            padding-left: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .principles-list li::before {
+            content: counter(principle-counter) ".";
+            position: absolute;
+            left: 0;
+            font-size: 2rem;
+            font-weight: 700;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        /* Related section */
+        .related-section {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background-color: #f5f3ee;
+            border: 1px solid #1a1a1a;
+        }
+
+        .related-header {
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .related-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .related-link {
+            color: #1a1a1a;
+            text-decoration: none;
+            padding: 0.25rem 0;
+            border-bottom: 1px dotted #ccc;
+            font-size: 0.95rem;
+        }
+
+        .related-link:hover {
+            border-bottom-style: solid;
+        }
+
+        /* Footer */
+        .article-footer {
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            border-top: 3px double #1a1a1a;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #5a5a5a;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-headline {
+                font-size: 1.75rem;
+            }
+
+            .multi-column {
+                column-count: 1;
+            }
+
+            .article-content {
+                padding: 1rem;
+            }
+
+            blockquote {
+                margin: 1rem 0;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background-color: white;
+            }
+
+            .newspaper-container {
+                box-shadow: none;
+            }
+
+            .back-link {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="newspaper-container">
+        <header class="newspaper-header">
+            <div class="header-top">
+                <a href="index.html" class="back-link">← Return to Front Page</a>
+                <div class="date-stamp">
+                    <div>First Published: June 14, 2025</div>
+                    <div>Last Updated: June 14, 2025</div>
+                </div>
+            </div>
+            <div class="article-header">
+                <h1 class="main-headline">Technical Debt in the Year 2025</h1>
+                <div class="article-meta">Contemporary Perspectives on an Enduring Challenge</div>
+            </div>
+        </header>
+
+        <main class="article-content">
+            <section class="article-section">
+                <h2 class="section-title">CTO / Leadership Perspective</h2>
+                
+                <h3 class="subsection-title">How Tackling Tech Debt Boosts Agility in Data Engineering</h3>
+                <a href="https://ctomagazine.com/tackling-tech-debt-boosts-agility-data-engineering/" target="_blank" class="article-link">
+                    ctomagazine.com/tackling-tech-debt-boosts-agility-data-engineering/
+                </a>
+                <p class="article-text">Industry leaders are reframing technical debt management as a business enabler rather than a necessary evil. This shift in perspective represents a fundamental change in how organizations approach system maintenance and evolution.</p>
+                
+                <blockquote>
+                    <p>Technical debt is not a developer problem. It is a leadership challenge. Managing tech debt is not a matter of perfectionism. It is a question of capacity, resilience, and future readiness. And for today's CTOs and CIOs, it is a strategic concern.</p>
+                </blockquote>
+                
+                <p class="article-text">The article presents three foundational principles for addressing technical debt at the organizational level:</p>
+                
+                <ol class="principles-list">
+                    <li><strong>Create space for maintenance</strong> - Allocate consistent time in sprint planning for infrastructure, testing, and cleanup.</li>
+                    <li><strong>Build a shared language</strong> - Help non-technical leaders understand tech debt in terms of business risk and velocity—not just code quality.</li>
+                    <li><strong>Normalize stewardship</strong> - Make infrastructure health a visible, measurable part of team performance—not an afterthought.</li>
+                </ol>
+                
+                <h3 class="subsection-title">The Hidden Cost of Technical Debt</h3>
+                <a href="https://sciodev.com/blog/the-hidden-cost-of-technical-debt/" target="_blank" class="article-link">
+                    sciodev.com/blog/the-hidden-cost-of-technical-debt/
+                </a>
+                <p class="article-text">Despite widespread recognition of technical debt's impact, many CTOs continue to underinvest in remediation efforts. The analysis reveals systemic issues preventing adequate attention to this critical area.</p>
+                
+                <blockquote>
+                    <p>Despite the risks, many CTOs underinvest in tech debt reduction. Why?</p>
+                </blockquote>
+                
+                <ul>
+                    <li><strong>Misaligned incentives:</strong> Engineering is rewarded for shipping fast, not refactoring.</li>
+                    <li><strong>Lack of visibility:</strong> Business leaders don't "see" the debt—until outages happen.</li>
+                    <li><strong>Fear of disruption:</strong> Teams avoid touching fragile codebases, fearing ripple effects.</li>
+                </ul>
+            </section>
+
+            <section class="article-section">
+                <h2 class="section-title">The Importance of Maintenance</h2>
+                
+                <h3 class="subsection-title">The End of Extraction and the Rise of Abundance</h3>
+                <a href="https://bigthink.com/business/the-end-of-extraction-and-the-rise-of-abundance/" target="_blank" class="article-link">
+                    bigthink.com/business/the-end-of-extraction-and-the-rise-of-abundance/
+                </a>
+                <p class="article-text">A paradigm shift is emerging in how we value maintenance work. The concept of the "Maintenance Premium" challenges fundamental assumptions about where business value originates.</p>
+                
+                <blockquote>
+                    <p>Paul Higgins wrote a brilliant piece recently called The Maintenance Premium, and it challenges one of the deepest assumptions in modern business: that value comes primarily from launching new things. What if that's wrong? What if real value — the kind that compounds over decades — comes not from disruption, but from thoughtful maintenance?</p>
+                </blockquote>
+                
+                <div class="multi-column">
+                    <p class="article-text">Drawing inspiration from Robert Pirsig's philosophical exploration in "Zen and the Art of Motorcycle Maintenance," this perspective reveals a deeper truth about system care:</p>
+                    
+                    <blockquote>
+                        <p>Robert Pirsig, in his philosophical exploration Zen and the Art of Motorcycle Maintenance, revealed a deeper truth about maintenance that most business thinkers miss. Maintenance isn't static preservation but dynamic engagement. When you truly maintain a motorcycle, you're not just keeping it running. You're developing an intimate understanding of how it wants to run, constantly making micro-adjustments that improve its performance. The machine and the maintainer evolve together.</p>
+                    </blockquote>
+                </div>
+            </section>
+
+            <section class="article-section">
+                <h2 class="section-title">AI Consideration</h2>
+                
+                <h3 class="subsection-title">The AI Reckoning - Why Leaders Must Tackle Tech Debt Now</h3>
+                <a href="https://adams.io/blog/f/the-ai-reckoning-why-leaders-must-tackle-tech-debt-now" target="_blank" class="article-link">
+                    adams.io/blog/f/the-ai-reckoning-why-leaders-must-tackle-tech-debt-now
+                </a>
+                <p class="article-text">The emergence of artificial intelligence has fundamentally altered the technical debt landscape. Organizations burdened with legacy systems find themselves at a severe disadvantage in the AI era.</p>
+                
+                <blockquote>
+                    <p>In the AI era, tech debt doesn't just slow you down—it blocks your ability to compete.</p>
+                </blockquote>
+                
+                <p class="article-text">The article introduces the PAID Framework for technical debt prioritization:</p>
+                
+                <ul>
+                    <li><strong>Prioritize:</strong> High business impact, reasonable effort—fix immediately.</li>
+                    <li><strong>Address:</strong> High impact, high effort—make a plan and do it.</li>
+                    <li><strong>Investigate:</strong> Low impact, reasonable effort—quick wins worth pursuing.</li>
+                    <li><strong>Document:</strong> Low impact, high effort—defer and monitor (address later if it aligns with other work).</li>
+                </ul>
+                
+                <h3 class="subsection-title">GitHub's AI-Assisted Debt Reduction</h3>
+                <a href="https://github.blog/ai-and-ml/github-copilot/how-the-github-billing-team-uses-the-coding-agent-in-github-copilot-to-continuously-burn-down-technical-debt/" target="_blank" class="article-link">
+                    github.blog/ai-and-ml/github-copilot/how-the-github-billing-team-uses-the-coding-agent...
+                </a>
+                <p class="article-text">Real-world applications of AI in technical debt reduction are beginning to emerge. GitHub's billing team demonstrates how AI assistants can accelerate debt remediation while maintaining quality standards.</p>
+                
+                <blockquote>
+                    <p>The magic happens in the interaction between human judgment and AI execution. You define the problem, set the constraints, and validate the solution. The agent handles the tedious implementation details that would otherwise consume hours of your time. This partnership lets you operate at a higher level while still maintaining quality and control.</p>
+                </blockquote>
+                
+                <p class="article-text">The report concludes with a note of cautious optimism: "We still have a job! For now, at least."</p>
+            </section>
+
+            <div class="related-section">
+                <h3 class="related-header">Related Articles</h3>
+                <div class="related-links">
+                    <a href="ten-articles-on-tech-debt.html" class="related-link">Ten Articles on Tech Debt →</a>
+                    <a href="five-more-posts-on-tech-debt.html" class="related-link">Five More Posts on Tech Debt →</a>
+                </div>
+            </div>
+        </main>
+
+        <footer class="article-footer">
+            <p>© 2025 The Technical Debt Tribune. All articles referenced remain the property of their original authors.</p>
+        </footer>
+    </div>
+</body>
+</html>

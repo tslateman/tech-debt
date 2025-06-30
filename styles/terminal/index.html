@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECHNICAL DEBT DOCUMENTATION SYSTEM v1.0</title>
+    <meta name="description" content="Terminal interface for technical debt documentation archive">
+    <style>
+        @font-face {
+            font-family: 'DOS';
+            src: local('Courier New'), local('Courier'), local('monospace');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: default;
+        }
+
+        :root {
+            --green: #00ff00;
+            --amber: #ffb000;
+            --dark-green: #008800;
+            --bg: #000000;
+            --scanline: rgba(0, 255, 0, 0.02);
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--green);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+            line-height: 1.4;
+            overflow-x: hidden;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+        }
+
+        /* CRT Monitor Effect */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                var(--scanline) 2px,
+                var(--scanline) 4px
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Screen flicker */
+        @keyframes flicker {
+            0% { opacity: 0.97; }
+            5% { opacity: 0.94; }
+            10% { opacity: 0.98; }
+            15% { opacity: 0.95; }
+            20% { opacity: 0.98; }
+            100% { opacity: 0.98; }
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+            pointer-events: none;
+            z-index: 2;
+            animation: flicker 0.15s infinite;
+        }
+
+        .terminal-container {
+            position: relative;
+            min-height: 100vh;
+            padding: 20px;
+            z-index: 0;
+        }
+
+        /* ASCII Borders */
+        .ascii-border {
+            border: 2px solid var(--green);
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 1000px;
+            position: relative;
+        }
+
+        .ascii-border::before,
+        .ascii-border::after {
+            content: '';
+            position: absolute;
+            background: var(--bg);
+        }
+
+        .ascii-border::before {
+            top: -10px;
+            left: 20px;
+            right: 20px;
+            height: 20px;
+        }
+
+        .ascii-border::after {
+            bottom: -10px;
+            left: 20px;
+            right: 20px;
+            height: 20px;
+        }
+
+        /* Header ASCII Art */
+        .header-ascii {
+            text-align: center;
+            margin-bottom: 30px;
+            white-space: pre;
+            font-size: 12px;
+            line-height: 1.2;
+            color: var(--amber);
+        }
+
+        .system-status {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid var(--dark-green);
+            font-size: 14px;
+        }
+
+        /* Blinking cursor */
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background: var(--green);
+            animation: blink 1s infinite;
+            vertical-align: text-bottom;
+        }
+
+        /* Terminal prompt */
+        .prompt {
+            margin: 20px 0;
+        }
+
+        .prompt::before {
+            content: "C:\\TECHDEBT>";
+            color: var(--amber);
+            margin-right: 10px;
+        }
+
+        /* Menu items */
+        .menu-item {
+            display: block;
+            padding: 10px 0;
+            text-decoration: none;
+            color: var(--green);
+            position: relative;
+            transition: all 0.1s;
+        }
+
+        .menu-item:hover {
+            color: var(--bg);
+            background: var(--green);
+            text-shadow: none;
+        }
+
+        .menu-item::before {
+            content: "[";
+            margin-right: 5px;
+        }
+
+        .menu-item::after {
+            content: "]";
+            margin-left: 5px;
+        }
+
+        .menu-number {
+            color: var(--amber);
+            margin-right: 10px;
+        }
+
+        /* Content sections */
+        .content-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px dashed var(--dark-green);
+        }
+
+        .section-title {
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .section-title::before {
+            content: ">> ";
+        }
+
+        .section-title::after {
+            content: " <<";
+        }
+
+        /* File listing style */
+        .file-entry {
+            padding: 5px 0;
+            margin: 10px 0;
+        }
+
+        .file-meta {
+            font-size: 12px;
+            color: var(--dark-green);
+            margin-top: 5px;
+        }
+
+        /* Navigation hints */
+        .nav-hints {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px;
+            border: 1px solid var(--dark-green);
+            background: var(--bg);
+            font-size: 12px;
+            z-index: 10;
+        }
+
+        .nav-hints h4 {
+            color: var(--amber);
+            margin-bottom: 5px;
+        }
+
+        /* Loading animation */
+        @keyframes loading {
+            0% { content: "LOADING.  "; }
+            33% { content: "LOADING.. "; }
+            66% { content: "LOADING..."; }
+            100% { content: "LOADING.  "; }
+        }
+
+        .loading::after {
+            content: "LOADING.  ";
+            animation: loading 1s infinite;
+        }
+
+        /* Matrix rain effect for decoration */
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            opacity: 0.05;
+        }
+
+        .tags {
+            margin-top: 10px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            margin-right: 10px;
+            border: 1px solid var(--dark-green);
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header-ascii {
+                font-size: 8px;
+            }
+            
+            .terminal-container {
+                padding: 10px;
+            }
+            
+            .ascii-border {
+                padding: 10px;
+            }
+            
+            .nav-hints {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-bg"></div>
+    <div class="terminal-container">
+        <div class="ascii-border">
+            <pre class="header-ascii">
+╔═══════════════════════════════════════════════════════════════════════╗
+║  _____ _____ ____ _   _   ____  _____ ____ _____   ____   ___   ____ ║
+║ |_   _| ____/ ___| | | | |  _ \| ____| __ )_   _| |  _ \ / _ \ / ___|║
+║   | | |  _|| |   | |_| | | | | |  _| |  _ \ | |   | | | | | | | |    ║
+║   | | | |__| |___|  _  | | |_| | |___| |_) || |   | |_| | |_| | |___ ║
+║   |_| |_____\____|_| |_| |____/|_____|____/ |_|   |____/ \___/ \____|║
+║                                                                       ║
+║            D O C U M E N T A T I O N   A R C H I V E                 ║
+╚═══════════════════════════════════════════════════════════════════════╝
+            </pre>
+
+            <div class="system-status">
+                <div>SYSTEM: ONLINE</div>
+                <div>VERSION: 1.0.0</div>
+                <div>ENTRIES: 3 DOCUMENTS</div>
+                <div>STATUS: <span class="loading"></span></div>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">SYSTEM OVERVIEW</h2>
+                <div class="prompt">
+                    <span>This repository serves as a knowledge base for understanding and managing technical debt.</span>
+                    <span class="cursor"></span>
+                </div>
+                <div class="prompt">
+                    <span>It includes curated articles from industry experts, practical management strategies, and contemporary perspectives on how technical debt impacts modern software development.</span>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">AVAILABLE DOCUMENTS</h2>
+                
+                <div class="file-entry">
+                    <a href="ten-articles-on-tech-debt.html" class="menu-item">
+                        <span class="menu-number">01</span>Ten Articles on Tech Debt
+                    </a>
+                    <div class="file-meta">
+                        > A foundational collection of 10 essential articles that explore various aspects of technical debt
+                        <div class="tags">
+                            <span class="tag">TECHDEBT</span>
+                        </div>
+                        <div>> CREATED: 2025-06-01</div>
+                    </div>
+                </div>
+
+                <div class="file-entry">
+                    <a href="five-more-posts-on-tech-debt.html" class="menu-item">
+                        <span class="menu-number">02</span>Five More Posts on Tech Debt
+                    </a>
+                    <div class="file-meta">
+                        > Additional perspectives and insights on technical debt
+                        <div class="tags">
+                            <span class="tag">TECHDEBT</span>
+                        </div>
+                        <div>> CREATED: 2025-06-05</div>
+                    </div>
+                </div>
+
+                <div class="file-entry">
+                    <a href="tech-debt-in-2025.html" class="menu-item">
+                        <span class="menu-number">03</span>Tech Debt in 2025
+                    </a>
+                    <div class="file-meta">
+                        > Contemporary perspectives on technical debt including AI impact
+                        <div class="tags">
+                            <span class="tag">TECHDEBT</span>
+                        </div>
+                        <div>> CREATED: 2025-06-14</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-hints">
+                <h4>COMMANDS:</h4>
+                <div>↑↓ - Navigate</div>
+                <div>ENTER - Select</div>
+                <div>ESC - Back</div>
+                <div>H - Help</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add matrix rain effect
+        const matrixContainer = document.querySelector('.matrix-bg');
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()';
+        
+        for (let i = 0; i < 50; i++) {
+            const span = document.createElement('span');
+            span.style.position = 'absolute';
+            span.style.left = Math.random() * 100 + '%';
+            span.style.animationDelay = Math.random() * 20 + 's';
+            span.style.fontSize = Math.random() * 10 + 10 + 'px';
+            span.textContent = characters[Math.floor(Math.random() * characters.length)];
+            matrixContainer.appendChild(span);
+        }
+
+        // Keyboard navigation
+        let currentIndex = 0;
+        const menuItems = document.querySelectorAll('.menu-item');
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown') {
+                currentIndex = (currentIndex + 1) % menuItems.length;
+                menuItems[currentIndex].focus();
+            } else if (e.key === 'ArrowUp') {
+                currentIndex = (currentIndex - 1 + menuItems.length) % menuItems.length;
+                menuItems[currentIndex].focus();
+            } else if (e.key === 'Enter' && document.activeElement.classList.contains('menu-item')) {
+                document.activeElement.click();
+            } else if (e.key === 'h' || e.key === 'H') {
+                alert('HELP SYSTEM\n\nUse arrow keys to navigate\nPress ENTER to select\nPress ESC to go back\n\nSystem developed by TECH DEBT ARCHIVE DIVISION');
+            }
+        });
+
+        // Terminal typing effect
+        setTimeout(() => {
+            const loadingElement = document.querySelector('.loading');
+            if (loadingElement) {
+                loadingElement.textContent = 'READY';
+                loadingElement.style.color = '#00ff00';
+            }
+        }, 3000);
+    </script>
+</body>
+</html>
