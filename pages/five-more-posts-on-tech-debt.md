@@ -26,7 +26,7 @@ Fair, I guess. Dangerous in the wrong hands, though.
 
 Bingo. Business staff love to borrow for their goals and have technical staff pay it off. Then they turn around and complain about technical staff taking longer to deliver. Things start to spiral from there with expanded padding in estimates and eroding quality as burned out engineers stop trying.
 
-- My favorite part is the list from “[Towards an Ontology of Terms on Technical Debt](https://pdfs.semanticscholar.org/3ab6/bd6fd72110a18f2d9d442cab03369a6017c5.pdf)"
+My favorite part is the list from “[Towards an Ontology of Terms on Technical Debt](https://pdfs.semanticscholar.org/3ab6/bd6fd72110a18f2d9d442cab03369a6017c5.pdf)"
 
   - Architecture Debt
   - Build Debt
