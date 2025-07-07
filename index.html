@@ -327,7 +327,7 @@
   <body data-theme="light">
     <div class="container">
       <!-- Navigation -->
-      <nav style="margin-bottom: 2rem;">
+      <nav style="margin-bottom: 2rem; display: none;" id="back-to-home-nav">
         <a href="../../index.html" style="display: inline-flex; align-items: center; color: var(--primary-color); text-decoration: none; font-weight: 500;">
           <svg style="width: 1rem; height: 1rem; margin-right: 0.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
@@ -335,6 +335,18 @@
           Back to Home
         </a>
       </nav>
+      <script>
+        // Show "Back to Home" button only when within Code & Context
+        (function() {
+          const currentUrl = window.location.href;
+          const nav = document.getElementById('back-to-home-nav');
+          
+          // Check if we're in the /share/content/ path structure
+          if (currentUrl.includes('/share/content/') || currentUrl.includes('/share/content%2F')) {
+            nav.style.display = 'block';
+          }
+        })();
+      </script>
 
       <header>
         <h1>Technical Debt Documentation</h1>
